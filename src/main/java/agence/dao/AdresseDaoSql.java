@@ -55,7 +55,7 @@ public class AdresseDaoSql implements AdresseDao
     public List<Adresse> findAll()
     {
         // Liste des clients que l'on va retourner
-        List<Adresse> ListAdresse = new ArrayList<Adresse>();
+        List<Adresse> listeAdresses = new ArrayList<Adresse>();
 
         try
         {
@@ -83,7 +83,7 @@ public class AdresseDaoSql implements AdresseDao
                 objAdresse.setPays(tuple.getString("pays"));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
-                ListAdresse.add(objAdresse);
+                listeAdresses.add(objAdresse);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
 
         }
@@ -92,7 +92,7 @@ public class AdresseDaoSql implements AdresseDao
             e.printStackTrace();
         }
         // Retourne la liste de toutes les clients
-        return ListAdresse;
+        return listeAdresses;
     }
 
     @Override
