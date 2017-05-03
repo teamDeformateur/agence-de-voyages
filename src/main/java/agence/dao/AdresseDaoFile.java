@@ -61,7 +61,6 @@ public class AdresseDaoFile implements AdresseDao
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

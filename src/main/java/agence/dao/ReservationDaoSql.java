@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,6 @@ public class ReservationDaoSql implements ReservationDao
     {
         // Initialiser ma liste d'objets métier
         List<Reservation> listeBO = new ArrayList<>();
-        // Init du format de la date
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         try
         {
             /*
@@ -115,8 +112,6 @@ public class ReservationDaoSql implements ReservationDao
     {
         // Initialiser mon bo
         Reservation bo = null;
-        // Init du format de la date
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         try
         {
             /*

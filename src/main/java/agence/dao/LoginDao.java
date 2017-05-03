@@ -6,7 +6,7 @@ package agence.dao;
 import agence.model.Login;
 
 /**
- * @author ajc
+ * @author seme
  *
  */
 public interface LoginDao extends Dao<Login, Integer>

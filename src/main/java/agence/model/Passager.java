@@ -9,7 +9,7 @@ package agence.model;
 public class Passager
 {
     /**
-     * Id du passager
+     * Identifiant technique du passager
      */
     private int idPas;
     /**
@@ -38,7 +38,7 @@ public class Passager
     }
 
     /**
-     * 
+     * Constructeur par défaut
      */
     public Passager()
     {

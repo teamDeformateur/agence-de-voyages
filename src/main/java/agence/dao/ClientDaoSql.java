@@ -1,7 +1,5 @@
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,45 +8,8 @@ import java.util.List;
 
 import agence.model.Client;
 
-public class ClientDaoSql implements ClientDao
+public class ClientDaoSql extends DaoSQL implements ClientDao
 {
-
-    private Connection connexion;
-
-    public ClientDaoSql()
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/vol", "root", "");
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void fermetureConnexion()
-    {
-        try
-        {
-            connexion.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public List<Client> findAll()
     {
@@ -86,17 +47,7 @@ public class ClientDaoSql implements ClientDao
 
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
-                objClient.setLog(loginDAO.findById(tuple.getInt("idLog")));
-
-                // for (int i=0; i< ListClients.size(); i++)
-                // {
-                // ListClients.get(i).setAdresse(adresseDAO.findById(ListClients.get(i).getIdAdd()));
-                // }
-
-                // for (int i=0; i< ListClients.size(); i++)
-                // {
-                // ListClients.get(i).setLog(loginDAO.findById(ListClients.get(i).getIdLog()));
-                // }
+                objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
                 ListClients.add(objClient);
@@ -145,7 +96,7 @@ public class ClientDaoSql implements ClientDao
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
                 adresseDAO.fermetureConnexion();
-                objClient.setLog(loginDAO.findById(tuple.getInt("idLog")));
+                objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
                 loginDAO.fermetureConnexion();
             }
 

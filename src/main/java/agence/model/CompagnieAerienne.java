@@ -6,34 +6,56 @@ public class CompagnieAerienne
     /**
      * Id de la compagnie aérienne
      */
-    private int id;
+    private int idCom;
 
     /**
      * Nom de la compagnie aérienne
      */
     private String nom;
 
+    /**
+     * Constructeur
+     * 
+     * @param id
+     *            Identifiant de la compagnie
+     * @param nom
+     *            Nom de la compagnie
+     */
     public CompagnieAerienne(int id, String nom)
     {
-        this.id = id;
+        this.idCom = id;
         this.nom = nom;
     }
 
-    public int getId()
+    /**
+     * @return the idCom
+     */
+    public int getIdCom()
     {
-        return id;
+        return idCom;
     }
 
-    public void setId(int id)
+    /**
+     * @param idCom
+     *            the idCom to set
+     */
+    public void setIdCom(int idCom)
     {
-        this.id = id;
+        this.idCom = idCom;
     }
 
+    /**
+     * @return the nom
+     */
     public String getNom()
     {
         return nom;
     }
 
+    /**
+     * @param nom
+     *            the nom to set
+     */
     public void setNom(String nom)
     {
         this.nom = nom;
@@ -42,7 +64,7 @@ public class CompagnieAerienne
     @Override
     public String toString()
     {
-        return "CompagnieAerienne [id=" + id + ", nom=" + nom + "]";
+        return "CompagnieAerienne [id=" + idCom + ", nom=" + nom + "]";
     }
 
 }

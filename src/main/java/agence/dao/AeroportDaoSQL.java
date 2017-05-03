@@ -1,7 +1,5 @@
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,51 +8,8 @@ import java.util.List;
 
 import agence.model.Aeroport;
 
-public class AeroportDaoSQL implements AeroportDao
+public class AeroportDaoSQL extends DaoSQL implements AeroportDao
 {
-
-    /**
-     * 
-     */
-    public AeroportDaoSQL()
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/vol", "root", "");
-        }
-        catch (SQLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-
-    private Connection connexion;
-
-    public void fermetureConnexion()
-    {
-        try
-        {
-            connexion.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     public List<Aeroport> findAll()
     {
         // Liste des aéroports que l'on va retourner

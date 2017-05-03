@@ -1,7 +1,5 @@
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,46 +8,8 @@ import java.util.List;
 
 import agence.model.Login;
 
-public class LoginDaoSql implements LoginDao
+public class LoginDaoSql extends DaoSQL implements LoginDao
 {
-
-    private Connection connexion;
-
-    public LoginDaoSql()
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/vol", "root", "");
-        }
-        catch (SQLException e)
-        {
-
-            e.printStackTrace();
-        }
-    }
-
-    public void fermetureConnexion()
-    {
-        try
-        {
-            connexion.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public List<Login> findAll()
@@ -79,7 +39,7 @@ public class LoginDaoSql implements LoginDao
 
                 objLogin.setLogin(tuple.getString("login"));
                 objLogin.setMotDePasse(tuple.getString("motDePasse"));
-                objLogin.setAdmin(tuple.getInt("admin"));
+                objLogin.setAdmin(tuple.getBoolean("admin"));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
                 ListLogin.add(objLogin);
@@ -116,7 +76,7 @@ public class LoginDaoSql implements LoginDao
                 objLogin = new Login(tuple.getInt("id"));
                 objLogin.setLogin(tuple.getString("login"));
                 objLogin.setMotDePasse(tuple.getString("motDePasse"));
-                objLogin.setAdmin(tuple.getInt("admin"));
+                objLogin.setAdmin(tuple.getBoolean("admin"));
             }
 
         }

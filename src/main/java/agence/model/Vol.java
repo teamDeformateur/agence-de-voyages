@@ -6,14 +6,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author ajc
- *
+ * Représente le vol
+ * 
+ * @author seme
  */
 public class Vol
 {
 
     /**
-     * id du vol
+     * identifiant technique du vol
      */
     private int idVol;
     /**
@@ -21,7 +22,7 @@ public class Vol
      */
     private Date dateDepart;
     /**
-     * date d'arrivé du vol
+     * date d'arrivée du vol
      */
     private Date dateArrivee;
     /**
@@ -32,10 +33,17 @@ public class Vol
      * heure d'arrivée du vol
      */
     private Time heureArrivee;
-    private Aeroport aeroportDepart;
-    private Aeroport aeroportArrivee;
     /**
-     * liste d'escales par lesquelles on peut passer
+     * Aéroport de départ
+     */
+    private Aeroport aeroportDepart;
+    /**
+     * Aéroport d'arrivée
+     */
+    private Aeroport aeroportArrivee;
+
+    /**
+     * liste d'escales que le vol va effectuer
      */
     private List<Escale> escales;
 
@@ -51,84 +59,140 @@ public class Vol
         this.escales = new ArrayList<Escale>();
     }
 
-    public Aeroport getAeroportArrivee()
-    {
-        return aeroportArrivee;
-    }
-
-    public Aeroport getAeroportDepart()
-    {
-        return aeroportDepart;
-    }
-
-    public Date getDateArrivee()
-    {
-        return dateArrivee;
-    }
-
-    public Date getDateDepart()
-    {
-        return dateDepart;
-    }
-
-    public List<Escale> getEscales()
-    {
-        return escales;
-    }
-
-    public Time getHeureArrivee()
-    {
-        return heureArrivee;
-    }
-
-    public Time getHeureDepart()
-    {
-        return heureDepart;
-    }
-
+    /**
+     * @return the idVol
+     */
     public int getIdVol()
     {
         return idVol;
     }
 
-    public void setAeroportArrivee(Aeroport aeroportArrivee)
+    /**
+     * @param idVol
+     *            the idVol to set
+     */
+    public void setIdVol(int idVol)
     {
-        this.aeroportArrivee = aeroportArrivee;
+        this.idVol = idVol;
     }
 
-    public void setAeroportDepart(Aeroport aeroportDepart)
+    /**
+     * @return the dateDepart
+     */
+    public Date getDateDepart()
     {
-        this.aeroportDepart = aeroportDepart;
+        return dateDepart;
     }
 
-    public void setDateArrivee(Date dateArrivee)
-    {
-        this.dateArrivee = dateArrivee;
-    }
-
+    /**
+     * @param dateDepart
+     *            the dateDepart to set
+     */
     public void setDateDepart(Date dateDepart)
     {
         this.dateDepart = dateDepart;
     }
 
-    public void setEscales(List<Escale> escales)
+    /**
+     * @return the dateArrivee
+     */
+    public Date getDateArrivee()
     {
-        this.escales = escales;
+        return dateArrivee;
     }
 
-    public void setHeureArrivee(Time heureArrivee)
+    /**
+     * @param dateArrivee
+     *            the dateArrivee to set
+     */
+    public void setDateArrivee(Date dateArrivee)
     {
-        this.heureArrivee = heureArrivee;
+        this.dateArrivee = dateArrivee;
     }
 
+    /**
+     * @return the heureDepart
+     */
+    public Time getHeureDepart()
+    {
+        return heureDepart;
+    }
+
+    /**
+     * @param heureDepart
+     *            the heureDepart to set
+     */
     public void setHeureDepart(Time heureDepart)
     {
         this.heureDepart = heureDepart;
     }
 
-    public void setIdVol(int idVol)
+    /**
+     * @return the heureArrivee
+     */
+    public Time getHeureArrivee()
     {
-        this.idVol = idVol;
+        return heureArrivee;
+    }
+
+    /**
+     * @param heureArrivee
+     *            the heureArrivee to set
+     */
+    public void setHeureArrivee(Time heureArrivee)
+    {
+        this.heureArrivee = heureArrivee;
+    }
+
+    /**
+     * @return the aeroportDepart
+     */
+    public Aeroport getAeroportDepart()
+    {
+        return aeroportDepart;
+    }
+
+    /**
+     * @param aeroportDepart
+     *            the aeroportDepart to set
+     */
+    public void setAeroportDepart(Aeroport aeroportDepart)
+    {
+        this.aeroportDepart = aeroportDepart;
+    }
+
+    /**
+     * @return the aeroportArrivee
+     */
+    public Aeroport getAeroportArrivee()
+    {
+        return aeroportArrivee;
+    }
+
+    /**
+     * @param aeroportArrivee
+     *            the aeroportArrivee to set
+     */
+    public void setAeroportArrivee(Aeroport aeroportArrivee)
+    {
+        this.aeroportArrivee = aeroportArrivee;
+    }
+
+    /**
+     * @return the escales
+     */
+    public List<Escale> getEscales()
+    {
+        return escales;
+    }
+
+    /**
+     * @param escales
+     *            the escales to set
+     */
+    public void setEscales(List<Escale> escales)
+    {
+        this.escales = escales;
     }
 
     public String toString()

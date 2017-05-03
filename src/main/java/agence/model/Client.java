@@ -7,31 +7,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author ajc
- *
+ * Classe qui représente l'objet métier client
+ * 
+ * @author seme
  */
 public class Client
 {
+    /**
+     * Identifiant technique du client
+     */
+    private int idCli;
+    /**
+     * Nom de famille
+     */
+    private String nom;
+    /**
+     * Numéro de téléhpone
+     */
+    private String numeroTel;
+    /**
+     * Numéro de fax
+     */
+    private String numeroFax;
+    /**
+     * Adresse email
+     */
+    private String email;
+    /**
+     * Prénome
+     */
+    private String prenom;
+    /**
+     * numéro SIRET (15 chiffres)
+     */
+    private long siret;
 
     /**
-     * 
+     * Réservations du client
      */
-
-    private int idCli;
-    private String nom;
-    private String numeroTel;
-    private String numeroFax;
-    private String email;
-    private String prenom;
-    private int siret;
-
-    private List<Reservation> ListReservations;
+    private List<Reservation> listeReservations;
+    /**
+     * Adresse du client
+     */
     private Adresse adresse;
-    private Login Log;
+    /**
+     * Login du client
+     */
+    private Login login;
 
     public Client()
     {
-        this.ListReservations = new ArrayList<>();
+        this.listeReservations = new ArrayList<>();
     }
 
     public Client(int idCli)
@@ -41,113 +67,183 @@ public class Client
         this.idCli = idCli;
     }
 
-    public Adresse getAdresse()
-    {
-        return adresse;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
+    /**
+     * @return the idCli
+     */
     public int getIdCli()
     {
         return idCli;
     }
 
-    public List<Reservation> getListReservations()
-    {
-        return ListReservations;
-    }
-
-    public Login getLog()
-    {
-        return Log;
-    }
-
-    public String getNom()
-    {
-        return nom;
-    }
-
-    public String getNumeroFax()
-    {
-        return numeroFax;
-    }
-
-    public String getNumeroTel()
-    {
-        return numeroTel;
-    }
-
-    public String getPrenom()
-    {
-        return prenom;
-    }
-
-    public int getSiret()
-    {
-        return siret;
-    }
-
-    public void setAdresse(Adresse adresse)
-    {
-        this.adresse = adresse;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
+    /**
+     * @param idCli
+     *            the idCli to set
+     */
     public void setIdCli(int idCli)
     {
         this.idCli = idCli;
     }
 
-    public void setListReservations(List<Reservation> listReservations)
+    /**
+     * @return the nom
+     */
+    public String getNom()
     {
-        ListReservations = listReservations;
+        return nom;
     }
 
-    public void setLog(Login log)
-    {
-        Log = log;
-    }
-
+    /**
+     * @param nom
+     *            the nom to set
+     */
     public void setNom(String nom)
     {
         this.nom = nom;
     }
 
-    public void setNumeroFax(String numeroFax)
+    /**
+     * @return the numeroTel
+     */
+    public String getNumeroTel()
     {
-        this.numeroFax = numeroFax;
+        return numeroTel;
     }
 
+    /**
+     * @param numeroTel
+     *            the numeroTel to set
+     */
     public void setNumeroTel(String numeroTel)
     {
         this.numeroTel = numeroTel;
     }
 
+    /**
+     * @return the numeroFax
+     */
+    public String getNumeroFax()
+    {
+        return numeroFax;
+    }
+
+    /**
+     * @param numeroFax
+     *            the numeroFax to set
+     */
+    public void setNumeroFax(String numeroFax)
+    {
+        this.numeroFax = numeroFax;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail()
+    {
+        return email;
+    }
+
+    /**
+     * @param email
+     *            the email to set
+     */
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    /**
+     * @return the prenom
+     */
+    public String getPrenom()
+    {
+        return prenom;
+    }
+
+    /**
+     * @param prenom
+     *            the prenom to set
+     */
     public void setPrenom(String prenom)
     {
         this.prenom = prenom;
     }
 
-    public void setSiret(int siret)
+    /**
+     * @return the siret
+     */
+    public long getSiret()
+    {
+        return siret;
+    }
+
+    /**
+     * @param siret
+     *            the siret to set
+     */
+    public void setSiret(long siret)
     {
         this.siret = siret;
+    }
+
+    /**
+     * @return the listeReservations
+     */
+    public List<Reservation> getListeReservations()
+    {
+        return listeReservations;
+    }
+
+    /**
+     * @param listeReservations
+     *            the listeReservations to set
+     */
+    public void setListeReservations(List<Reservation> listeReservations)
+    {
+        this.listeReservations = listeReservations;
+    }
+
+    /**
+     * @return the adresse
+     */
+    public Adresse getAdresse()
+    {
+        return adresse;
+    }
+
+    /**
+     * @param adresse
+     *            the adresse to set
+     */
+    public void setAdresse(Adresse adresse)
+    {
+        this.adresse = adresse;
+    }
+
+    /**
+     * @return the login
+     */
+    public Login getLogin()
+    {
+        return login;
+    }
+
+    /**
+     * @param login
+     *            the login to set
+     */
+    public void setLogin(Login login)
+    {
+        this.login = login;
     }
 
     public String toString()
     {
         String reponse = "Le Client : " + this.nom + " " + this.prenom
                 + " a effectué la/les reservation(s) : \n";
-        for (int i = 0; i < ListReservations.size(); i++)
+        for (int i = 0; i < listeReservations.size(); i++)
         {
-            reponse += "\n" + this.ListReservations.get(i).getNumero();
+            reponse += "\n" + this.listeReservations.get(i).getNumero();
         }
 
         return reponse;

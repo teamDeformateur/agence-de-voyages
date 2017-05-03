@@ -13,9 +13,15 @@ import agence.model.Adresse;
 
 public class AdresseDaoSql implements AdresseDao
 {
-
+    /**
+     * Connexion à la BDD
+     */
     private Connection connexion;
 
+    /**
+     * Constructeur par défaut qui charge le driver et qui instancie la
+     * connexion
+     */
     public AdresseDaoSql()
     {
         try
@@ -31,7 +37,7 @@ public class AdresseDaoSql implements AdresseDao
         try
         {
             connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/vol", "root", "");
+                    "jdbc:mysql://localhost:3306/agence", "user", "password");
         }
         catch (SQLException e)
         {
@@ -40,6 +46,9 @@ public class AdresseDaoSql implements AdresseDao
         }
     }
 
+    /**
+     * Ferme la connexion à la BDD
+     */
     public void fermetureConnexion()
     {
         try
@@ -122,8 +131,8 @@ public class AdresseDaoSql implements AdresseDao
             /*
              * Etape 3 : Exécution de la requête SQL
              */
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM adresse WHERE idAdd = " + idAdd);
+            ResultSet resultSet = statement.executeQuery(
+                    "SELECT * FROM adresse WHERE idAdd = " + idAdd);
 
             /*
              * Etape 4 : Parcours des résultats

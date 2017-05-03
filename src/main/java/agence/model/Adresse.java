@@ -4,7 +4,8 @@
 package agence.model;
 
 /**
- * @author ajc
+ * Classe qui représente l'objet métier Adresse
+ * @author seme
  */
 public class Adresse
 {
@@ -46,7 +47,7 @@ public class Adresse
     }
 
     /**
-     * 
+     * Constructeur par défaut
      */
     public Adresse()
     {

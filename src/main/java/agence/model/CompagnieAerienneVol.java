@@ -1,86 +1,154 @@
 package agence.model;
 
+/**
+ * Représente le lien entre un Vol et la Compagnie aérienne
+ * 
+ * @author Seme
+ */
 public class CompagnieAerienneVol
 {
 
+    /**
+     * Identifiant technique du lien
+     */
     private int id;
+    /**
+     * Identifiant technique de la compagnie
+     */
     private int idCompagnie;
+    /**
+     * Compagnie aérienne
+     */
     private CompagnieAerienne compagnieAerienne;
+    /**
+     * Vol
+     */
     private Vol vol;
+    /**
+     * Numéro affecté au vol par cette compagnie aérienne
+     */
     private String numero;
 
-    private short ouvert;
+    /**
+     * Ce vol est-il ouvert ou fermé à la réservation ?
+     */
+    private boolean ouvert;
 
-    public CompagnieAerienneVol(String numero, short ouvert)
+    /**
+     * Constructeur
+     * 
+     * @param numero
+     *            Numéro du vol attribué par la compagnie
+     * @param ouvert
+     *            Est-il ouvert à la réservation ?
+     */
+    public CompagnieAerienneVol(String numero, boolean ouvert)
     {
         this.numero = numero;
         this.ouvert = ouvert;
 
     }
 
-    public CompagnieAerienne getCompagnieAerienne()
-    {
-        return compagnieAerienne;
-    }
-
+    /**
+     * @return the id
+     */
     public int getId()
     {
         return id;
     }
 
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * @return the idCompagnie
+     */
     public int getIdCompagnie()
     {
         return idCompagnie;
     }
 
+    /**
+     * @param idCompagnie
+     *            the idCompagnie to set
+     */
     public void setIdCompagnie(int idCompagnie)
     {
         this.idCompagnie = idCompagnie;
     }
 
-    public String getNumero()
+    /**
+     * @return the compagnieAerienne
+     */
+    public CompagnieAerienne getCompagnieAerienne()
     {
-        return numero;
+        return compagnieAerienne;
     }
 
-    public short getOuvert()
-    {
-        return ouvert;
-    }
-
-    public Vol getVol()
-    {
-        return vol;
-    }
-
-    public short isOuvert()
-    {
-        return ouvert;
-    }
-
+    /**
+     * @param compagnieAerienne
+     *            the compagnieAerienne to set
+     */
     public void setCompagnieAerienne(CompagnieAerienne compagnieAerienne)
     {
         this.compagnieAerienne = compagnieAerienne;
     }
 
-    public void setId(int idCAV)
+    /**
+     * @return the vol
+     */
+    public Vol getVol()
     {
-        this.id = idCAV;
+        return vol;
     }
 
+    /**
+     * @param vol
+     *            the vol to set
+     */
+    public void setVol(Vol vol)
+    {
+        this.vol = vol;
+    }
+
+    /**
+     * @return the numero
+     */
+    public String getNumero()
+    {
+        return numero;
+    }
+
+    /**
+     * @param numero
+     *            the numero to set
+     */
     public void setNumero(String numero)
     {
         this.numero = numero;
     }
 
-    public void setOuvert(short ouvert)
+    /**
+     * @return the ouvert
+     */
+    public boolean isOuvert()
     {
-        this.ouvert = ouvert;
+        return ouvert;
     }
 
-    public void setVol(Vol vol)
+    /**
+     * @param ouvert
+     *            the ouvert to set
+     */
+    public void setOuvert(boolean ouvert)
     {
-        this.vol = vol;
+        this.ouvert = ouvert;
     }
 
     @Override

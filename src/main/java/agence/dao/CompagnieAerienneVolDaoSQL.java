@@ -1,7 +1,5 @@
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,46 +8,10 @@ import java.util.List;
 
 import agence.model.CompagnieAerienneVol;
 
-public class CompagnieAerienneVolDaoSQL implements CompagnieAerienneVolDao
+public class CompagnieAerienneVolDaoSQL extends DaoSQL
+        implements CompagnieAerienneVolDao
 {
-    public CompagnieAerienneVolDaoSQL()
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/vol", "root", "");
-        }
-        catch (SQLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private Connection connexion;
-
-    public void fermetureConnexion()
-    {
-        try
-        {
-            connexion.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
+    @Override
     public List<CompagnieAerienneVol> findAll()
     {
         // Liste des CompagnieAerienneVol que l'on va retourner
@@ -73,7 +35,7 @@ public class CompagnieAerienneVolDaoSQL implements CompagnieAerienneVolDao
             {
                 // Creation d'un objet Aeroport
                 CompagnieAerienneVol compagnieaeriennevol = new CompagnieAerienneVol(
-                        tuple.getString("numero"), tuple.getShort("ouvert"));
+                        tuple.getString("numero"), tuple.getBoolean("ouvert"));
                 compagnieaeriennevol.setId(tuple.getInt("id"));
                 compagnieaeriennevol.setCompagnieAerienne(
                         compagnieDAO.findById(tuple.getInt("idCompagnie")));
@@ -114,7 +76,7 @@ public class CompagnieAerienneVolDaoSQL implements CompagnieAerienneVolDao
             if (tuple.next())
             {
                 compagnieAerienneVol = new CompagnieAerienneVol(
-                        tuple.getString("numero"), tuple.getShort("ouvert"));
+                        tuple.getString("numero"), tuple.getBoolean("ouvert"));
                 compagnieAerienneVol.setId(tuple.getInt("id"));
                 compagnieAerienneVol
                         .setVol(volDAO.findById(tuple.getInt("idVol")));

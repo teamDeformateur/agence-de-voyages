@@ -3,13 +3,17 @@ package agence.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe qui représente l'objet métier Aéroport
+ */
 public class Aeroport
 {
 
     /**
-     * id de l'aéroport
+     * id techinque de l'aéroport
      */
     private int idAer;
+
     /**
      * Nom de l'aéroport
      */
@@ -20,6 +24,14 @@ public class Aeroport
      */
     private List<Ville> villes = new ArrayList<Ville>();
 
+    /**
+     * Constructeur
+     * 
+     * @param idAer
+     *            Identifiant technique de l'aéroport
+     * @param nom
+     *            Nom de l'aéroport
+     */
     public Aeroport(int idAer, String nom)
     {
         this.nom = nom;
@@ -38,31 +50,52 @@ public class Aeroport
         this.villes.add(ville); // ajout d'une ville déjà existante
     }
 
+    /**
+     * @return the idAer
+     */
     public int getIdAer()
     {
         return idAer;
     }
 
-    public String getNom()
-    {
-        return nom;
-    }
-
-    public List<Ville> getVilles()
-    {
-        return villes;
-    }
-
+    /**
+     * @param idAer
+     *            the idAer to set
+     */
     public void setIdAer(int idAer)
     {
         this.idAer = idAer;
     }
 
+    /**
+     * @return the nom
+     */
+    public String getNom()
+    {
+        return nom;
+    }
+
+    /**
+     * @param nom
+     *            the nom to set
+     */
     public void setNom(String nom)
     {
         this.nom = nom;
     }
 
+    /**
+     * @return the villes
+     */
+    public List<Ville> getVilles()
+    {
+        return villes;
+    }
+
+    /**
+     * @param villes
+     *            the villes to set
+     */
     public void setVilles(List<Ville> villes)
     {
         this.villes = villes;

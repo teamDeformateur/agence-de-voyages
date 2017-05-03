@@ -11,7 +11,7 @@ public class Reservation
 {
 
     /**
-     * Id de la réservation
+     * Identifiant technique de la réservation
      */
     private int idRes;
     /**
@@ -32,11 +32,11 @@ public class Reservation
     private Passager passager;
 
     /**
-     * id du passager
+     * identifiant technique du passager
      */
     private int idPas;
     /**
-     * id du client
+     * identifiant technique du client
      */
     private int idCli;
 
@@ -56,11 +56,10 @@ public class Reservation
     }
 
     /**
-     * 
+     * Constructeur par défaut
      */
     public Reservation()
     {
-        // TODO Auto-generated constructor stub
     }
 
     /**
