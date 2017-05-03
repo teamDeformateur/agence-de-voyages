@@ -11,7 +11,7 @@ import java.util.List;
  * 
  * @author seme
  */
-public class Client
+public abstract class Client
 {
     /**
      * Identifiant technique du client
@@ -33,14 +33,6 @@ public class Client
      * Adresse email
      */
     private String email;
-    /**
-     * Prénome
-     */
-    private String prenom;
-    /**
-     * numéro SIRET (15 chiffres)
-     */
-    private long siret;
 
     /**
      * Réservations du client
@@ -153,40 +145,6 @@ public class Client
     }
 
     /**
-     * @return the prenom
-     */
-    public String getPrenom()
-    {
-        return prenom;
-    }
-
-    /**
-     * @param prenom
-     *            the prenom to set
-     */
-    public void setPrenom(String prenom)
-    {
-        this.prenom = prenom;
-    }
-
-    /**
-     * @return the siret
-     */
-    public long getSiret()
-    {
-        return siret;
-    }
-
-    /**
-     * @param siret
-     *            the siret to set
-     */
-    public void setSiret(long siret)
-    {
-        this.siret = siret;
-    }
-
-    /**
      * @return the listeReservations
      */
     public List<Reservation> getListeReservations()
@@ -239,7 +197,7 @@ public class Client
 
     public String toString()
     {
-        String reponse = "Le Client : " + this.nom + " " + this.prenom
+        String reponse = "Le Client : " + this.nom + " "
                 + " a effectué la/les reservation(s) : \n";
         for (int i = 0; i < listeReservations.size(); i++)
         {

@@ -218,8 +218,8 @@ public class Reservation
     public String toString()
     {
         String reponse = "La Reservation : " + this.numero
-                + " a été effectuée par le Client : \n" + client.getNom() + " "
-                + client.getPrenom() + "\nElle porte sur le vol de "
+                + " a été effectuée par le Client : \n" + client.getNom()
+                + "\nElle porte sur le vol de "
                 + vol.getAeroportDepart().getNom() + " à "
                 + vol.getAeroportArrivee().getNom()
                 + ".\nElle concerne le passager :\n" + passager.getNom() + " "
