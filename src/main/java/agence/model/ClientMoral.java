@@ -5,7 +5,6 @@ package agence.model;
 
 /**
  * @author Seme
- *
  */
 public class ClientMoral extends Client
 {
@@ -13,7 +12,7 @@ public class ClientMoral extends Client
      * numéro SIRET (15 chiffres)
      */
     private long siret;
-    
+
     /**
      * @param idCli
      */

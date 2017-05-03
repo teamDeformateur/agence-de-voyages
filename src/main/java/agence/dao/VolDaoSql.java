@@ -47,7 +47,8 @@ public class VolDaoSql extends DaoSQL implements VolDao
                  * Recherche des escales
                  */
                 List<Escale> escales = escaleDao.findByVol(vol);
-                if(escales != null){
+                if (escales != null)
+                {
                     // liaison avec le vol
                     vol.setEscales(escales);
                 }

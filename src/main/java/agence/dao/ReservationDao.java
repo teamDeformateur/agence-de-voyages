@@ -16,10 +16,12 @@ public interface ReservationDao extends Dao<Reservation, Integer>
      * @return Liste des réservations en fonction du passager passé en paramètre
      */
     public List<Reservation> findByPassager(Passager passager);
-    
+
     /**
      * Retourne la liste des réservations en fonction d'un client
-     * @param client Le client qui a réservé
+     * 
+     * @param client
+     *            Le client qui a réservé
      * @return Liste des réservations du client
      */
     public List<Reservation> findByClient(Client client);

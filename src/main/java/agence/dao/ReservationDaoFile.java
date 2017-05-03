@@ -263,7 +263,8 @@ public class ReservationDaoFile implements ReservationDao
         return reservations;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.ReservationDao#findByClient(agence.model.Client)
      */
     @Override

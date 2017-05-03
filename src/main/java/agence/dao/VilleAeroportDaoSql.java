@@ -43,7 +43,6 @@ public class VilleAeroportDaoSql extends DaoSQL implements VilleAeroportDao
                 villeAeroports.add(villeAeroport);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
 
-
         }
         catch (SQLException e)
         {

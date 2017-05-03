@@ -5,7 +5,6 @@ package agence.model;
 
 /**
  * @author Seme
- *
  */
 public class ClientPhysique extends Client
 {
@@ -13,7 +12,7 @@ public class ClientPhysique extends Client
      * Prénom
      */
     private String prenom;
-    
+
     /**
      * @param idCli
      */

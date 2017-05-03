@@ -30,8 +30,8 @@ public class ClientMoralDaoSql extends ClientDaoSql
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM client WHERE siret IS NOT NULL");
+            PreparedStatement ps = connexion.prepareStatement(
+                    "SELECT * FROM client WHERE siret IS NOT NULL");
 
             // 4. Execution de la requête
             ResultSet tuple = ps.executeQuery();
@@ -78,8 +78,8 @@ public class ClientMoralDaoSql extends ClientDaoSql
         try
         {
             // Connexion à la BDD
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM client WHERE idClient=? AND siret IS NOT NULL");
+            PreparedStatement ps = connexion.prepareStatement(
+                    "SELECT * FROM client WHERE idClient=? AND siret IS NOT NULL");
             // Cherche l'idVill voulu dans la BDD
             ps.setInt(1, idCli);
 

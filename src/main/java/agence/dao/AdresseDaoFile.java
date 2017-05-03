@@ -131,7 +131,8 @@ public class AdresseDaoFile implements AdresseDao
         return adresse;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.AdresseDao#findByClient(agence.model.Client)
      */
     @Override

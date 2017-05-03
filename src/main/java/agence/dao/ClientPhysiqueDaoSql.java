@@ -30,8 +30,8 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM client WHERE siret IS NULL");
+            PreparedStatement ps = connexion.prepareStatement(
+                    "SELECT * FROM client WHERE siret IS NULL");
 
             // 4. Execution de la requête
             ResultSet tuple = ps.executeQuery();
@@ -45,7 +45,8 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
                 Client objClient = new ClientPhysique(tuple.getInt("idClient"));
 
                 objClient.setNom(tuple.getString("nom"));
-                ((ClientPhysique) objClient).setPrenom(tuple.getString("prenom"));
+                ((ClientPhysique) objClient)
+                        .setPrenom(tuple.getString("prenom"));
                 objClient.setNumeroTel(tuple.getString("numTel"));
                 objClient.setNumeroFax(tuple.getString("numFax"));
                 objClient.setEmail(tuple.getString("eMail"));
@@ -78,8 +79,8 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
         try
         {
             // Connexion à la BDD
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM client WHERE idClient=? AND siret IS NULL");
+            PreparedStatement ps = connexion.prepareStatement(
+                    "SELECT * FROM client WHERE idClient=? AND siret IS NULL");
             // Cherche l'idVill voulu dans la BDD
             ps.setInt(1, idCli);
 
@@ -90,7 +91,8 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
             {
                 objClient = new ClientPhysique(tuple.getInt("idClient"));
                 objClient.setNom(tuple.getString("nom"));
-                ((ClientPhysique) objClient).setPrenom(tuple.getString("prenom"));
+                ((ClientPhysique) objClient)
+                        .setPrenom(tuple.getString("prenom"));
                 objClient.setNumeroTel(tuple.getString("numTel"));
                 objClient.setNumeroFax(tuple.getString("numFax"));
                 objClient.setEmail(tuple.getString("eMail"));

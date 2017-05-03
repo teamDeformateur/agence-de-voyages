@@ -9,7 +9,9 @@ public interface EscaleDao extends Dao<Escale, Integer>
 {
     /**
      * Récupère la liste des escales d'un vol
-     * @param vol Le vol pour lequel on cherche ses escales
+     * 
+     * @param vol
+     *            Le vol pour lequel on cherche ses escales
      * @return La liste des escales
      */
     public List<Escale> findByVol(Vol vol);
