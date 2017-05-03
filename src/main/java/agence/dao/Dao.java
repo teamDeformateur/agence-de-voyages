@@ -13,18 +13,18 @@ import java.util.List;
 public interface Dao<T, PK>
 {
     /**
-     * Retourne la liste de tous les objets m�tiers de la source de donn�es
+     * Retourne la liste de tous les objets métiers de la source de données
      * 
-     * @return Liste des objets m�tiers de la source de donn�es
+     * @return Liste des objets métiers de la source de données
      */
     List<T> findAll();
 
     /**
-     * Retourne un objet m�tier en fonction de sa cl� primaire
+     * Retourne un objet métier en fonction de sa clé primaire
      * 
      * @param id
-     *            Cl� primaire
-     * @return L'objet m�tier trouv�
+     *            Clé primaire
+     * @return L'objet métier trouvé
      */
     T findById(PK id);
 

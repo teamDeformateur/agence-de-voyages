@@ -2,6 +2,11 @@ package agence.model;
 
 import java.util.Date;
 
+/**
+ * Réservation d'un vol pour un passager effectuée par un client
+ * 
+ * @author Seme
+ */
 public class Reservation
 {
 
@@ -16,17 +21,21 @@ public class Reservation
     /**
      * Numéro de la réservation
      */
-    private int numero;
+    private String numero;
     /**
-     * Etat de la réservation (ouvert ou fermé)
+     * Etat de la réservation (annulée ou confirmée)
      */
     private EtatReservation etat;
     /**
-     * id du vol
+     * La référence du passager
      */
-    private int idVol;
+    private Passager passager;
+
     /**
-     * id du passager
+     * Constructeur
+     * 
+     * @param idRes
+     *            Identifiant technique de la réservation
      */
     private int idPas;
     /**
@@ -76,14 +85,21 @@ public class Reservation
         return idRes;
     }
 
-    public int getIdVol()
+    /**
+     * @param idRes
+     *            the idRes to set
+     */
+    public void setIdRes(int idRes)
     {
-        return idVol;
+        this.idRes = idRes;
     }
 
-    public int getNumero()
+    /**
+     * @return the date
+     */
+    public Date getDate()
     {
-        return numero;
+        return date;
     }
 
     public Passager getPassager()
@@ -106,9 +122,12 @@ public class Reservation
         this.date = date;
     }
 
-    public void setEtat(EtatReservation etat)
+    /**
+     * @return the numero
+     */
+    public String getNumero()
     {
-        this.etat = etat;
+        return numero;
     }
 
     public void setIdCli(int idCli)
@@ -118,24 +137,38 @@ public class Reservation
 
     public void setIdPas(int idPas)
     {
-        this.idPas = idPas;
-    }
-
-    public void setIdRes(int idRes)
-    {
-        this.idRes = idRes;
-    }
-
-    public void setIdVol(int idVol)
-    {
-        this.idVol = idVol;
-    }
-
-    public void setNumero(int numero)
-    {
         this.numero = numero;
     }
 
+    /**
+     * @return the etat
+     */
+    public EtatReservation getEtat()
+    {
+        return etat;
+    }
+
+    /**
+     * @param etat
+     *            the etat to set
+     */
+    public void setEtat(EtatReservation etat)
+    {
+        this.etat = etat;
+    }
+
+    /**
+     * @return the passager
+     */
+    public Passager getPassager()
+    {
+        return passager;
+    }
+
+    /**
+     * @param passager
+     *            the passager to set
+     */
     public void setPassager(Passager passager)
     {
         this.passager = passager;

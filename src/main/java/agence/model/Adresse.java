@@ -5,77 +5,136 @@ package agence.model;
 
 /**
  * @author ajc
- *
  */
 public class Adresse
 {
 
+    /**
+     * Identifiant technique de l'adresse
+     */
     private int idAdd;
+
+    /**
+     * Numéro et voie
+     */
     private String adresse;
 
+    /**
+     * Code postal
+     */
     private String codePostal;
+
+    /**
+     * Ville
+     */
     private String ville;
+
+    /**
+     * Pays
+     */
     private String pays;
 
-    public Adresse()
-    {
-        // TODO Auto-generated constructor stub
-    }
-
+    /**
+     * Constructeur
+     * 
+     * @param idAdd
+     *            L'identifiant de l'adresse
+     */
     public Adresse(int idAdd)
     {
-        this();
         this.idAdd = idAdd;
     }
 
-    public String getAdresse()
+    /**
+     * 
+     */
+    public Adresse()
     {
-        return adresse;
     }
 
-    public String getCodePostal()
-    {
-        return codePostal;
-    }
-
+    /**
+     * @return the idAdd
+     */
     public int getIdAdd()
     {
         return idAdd;
     }
 
-    public String getPays()
-    {
-        return pays;
-    }
-
-    public String getVille()
-    {
-        return ville;
-    }
-
-    public void setAdresse(String adresse)
-    {
-        this.adresse = adresse;
-    }
-
-    public void setCodePostal(String codePostal)
-    {
-        this.codePostal = codePostal;
-    }
-
+    /**
+     * @param idAdd
+     *            the idAdd to set
+     */
     public void setIdAdd(int idAdd)
     {
         this.idAdd = idAdd;
     }
 
-    public void setPays(String pays)
+    /**
+     * @return the adresse
+     */
+    public String getAdresse()
     {
-        this.pays = pays;
+        return adresse;
     }
 
+    /**
+     * @param adresse
+     *            the adresse to set
+     */
+    public void setAdresse(String adresse)
+    {
+        this.adresse = adresse;
+    }
+
+    /**
+     * @return the codePostal
+     */
+    public String getCodePostal()
+    {
+        return codePostal;
+    }
+
+    /**
+     * @param codePostal
+     *            the codePostal to set
+     */
+    public void setCodePostal(String codePostal)
+    {
+        this.codePostal = codePostal;
+    }
+
+    /**
+     * @return the ville
+     */
+    public String getVille()
+    {
+        return ville;
+    }
+
+    /**
+     * @param ville
+     *            the ville to set
+     */
     public void setVille(String ville)
     {
         this.ville = ville;
+    }
+
+    /**
+     * @return the pays
+     */
+    public String getPays()
+    {
+        return pays;
+    }
+
+    /**
+     * @param pays
+     *            the pays to set
+     */
+    public void setPays(String pays)
+    {
+        this.pays = pays;
     }
 
     @Override
