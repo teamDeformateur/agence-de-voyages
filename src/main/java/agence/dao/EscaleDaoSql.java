@@ -104,7 +104,6 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
         // Liste des escales que l'on va retourner
         List<Escale> escales = new ArrayList<Escale>();
         AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
-        VolDaoSql volDAO = new VolDaoSql();
         try
         {
             // connexion
