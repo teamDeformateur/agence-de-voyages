@@ -1,7 +1,5 @@
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import agence.model.Adresse;
+import agence.model.Client;
 
 public class AdresseDaoSql extends DaoSQL implements AdresseDao
 {
@@ -66,17 +65,6 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
         try
         {
             /*
-             * Etape 0 : chargement du pilote
-             */
-            Class.forName("com.mysql.jdbc.Driver");
-
-            /*
-             * Etape 1 : se connecter à la BDD
-             */
-            Connection connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/agence", "user", "password");
-
-            /*
              * Etape 2 : Création du statement
              */
             Statement statement = connexion.createStatement();
@@ -103,16 +91,59 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
                 adresse.setVille(resultSet.getString("ville"));
                 adresse.setPays(resultSet.getString("pays"));
             }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Impossible de se connecter à la BDD.");
+            e.printStackTrace();
+        }
+        // Je retourne l'adresse
+        return adresse;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.AdresseDao#findByClient(agence.model.Client)
+     */
+    @Override
+    public Adresse findByClient(Client client)
+    {
+        // Initialiser mon objet métier
+        Adresse adresse = null;
+        try
+        {
+            /*
+             * Etape 2 : Création du statement
+             */
+            Statement statement = connexion.createStatement();
 
             /*
-             * Etape 5 : je ferme la connexion à la BDD
+             * Etape 3 : Exécution de la requête SQL
              */
-            connexion.close();
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.err.println("Impossible de charger le pilote JDBC.");
-            e.printStackTrace();
+            ResultSet resultSet = statement
+                    .executeQuery("SELECT a.* " + "FROM adresse a "
+                            + "INNER JOIN client c ON a.idAdd = c.idAdd "
+                            + "WHERE idClient = " + client.getIdCli());
+
+            /*
+             * Etape 4 : Parcours des résultats
+             */
+            if (resultSet.next())
+            {
+                // Chaque ligne du tableau de résultat peut être exploitée
+                // cad, on va récupérer chaque valeur de chaque colonne
+                // je crée l'objet métier correspondant
+                adresse = new Adresse();
+                // appel des mutateurs
+                adresse.setIdAdd(resultSet.getInt("idAdd"));
+                adresse.setAdresse(resultSet.getString("adresse"));
+                adresse.setCodePostal(resultSet.getString("codePostal"));
+                adresse.setVille(resultSet.getString("ville"));
+                adresse.setPays(resultSet.getString("pays"));
+                // Je crée le lien entre le client et son adresse
+                client.setAdresse(adresse);
+            }
+
         }
         catch (SQLException e)
         {

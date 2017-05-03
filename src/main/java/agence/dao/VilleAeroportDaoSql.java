@@ -43,17 +43,6 @@ public class VilleAeroportDaoSql extends DaoSQL implements VilleAeroportDao
                 villeAeroports.add(villeAeroport);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
 
-            // for (int i=0; i<villeAeroports.size(); i++)
-            // {
-            // villeAeroports.get(i).setVille(villeDAO.findById(villeAeroports.get(i).getIdVille()));
-            // }
-
-            // for (int i=0; i<villeAeroports.size(); i++)
-            // {
-            // villeAeroports.get(i).setAeroport(aeroportDAO.findById(villeAeroports.get(i).getIdAeroport()));
-            // }
-            villeDAO.fermetureConnexion();
-            aeroportDAO.fermetureConnexion();
 
         }
         catch (SQLException e)
@@ -88,10 +77,8 @@ public class VilleAeroportDaoSql extends DaoSQL implements VilleAeroportDao
                 villeAeroport = new VilleAeroport(tuple.getInt("id"));
                 villeAeroport
                         .setVille(villeDAO.findById(tuple.getInt("idVille")));
-                villeDAO.fermetureConnexion();
                 villeAeroport.setAeroport(
                         aeroportDAO.findById(tuple.getInt("idAeroport")));
-                aeroportDAO.fermetureConnexion();
 
             }
 

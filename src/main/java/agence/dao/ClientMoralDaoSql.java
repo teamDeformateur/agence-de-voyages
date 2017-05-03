@@ -57,8 +57,6 @@ public class ClientMoralDaoSql extends ClientDaoSql
                 // Ajout du nouvel objet Client créé à la liste des clients
                 ListClients.add(objClient);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
-            adresseDAO.fermetureConnexion();
-            loginDAO.fermetureConnexion();
 
         }
         catch (SQLException e)
@@ -99,9 +97,7 @@ public class ClientMoralDaoSql extends ClientDaoSql
 
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
-                adresseDAO.fermetureConnexion();
                 objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
-                loginDAO.fermetureConnexion();
             }
 
         }

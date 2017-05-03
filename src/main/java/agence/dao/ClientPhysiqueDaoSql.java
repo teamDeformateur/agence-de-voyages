@@ -20,7 +20,7 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
     public List<Client> findAll()
     {
         // Liste des clients que l'on va retourner
-        List<Client> ListClients = new ArrayList<Client>();
+        List<Client> listeClients = new ArrayList<Client>();
         AdresseDaoSql adresseDAO = new AdresseDaoSql();
         LoginDaoSql loginDAO = new LoginDaoSql();
 
@@ -55,10 +55,8 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
                 objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
-                ListClients.add(objClient);
+                listeClients.add(objClient);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
-            adresseDAO.fermetureConnexion();
-            loginDAO.fermetureConnexion();
 
         }
         catch (SQLException e)
@@ -66,7 +64,7 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
             e.printStackTrace();
         }
         // Retourne la liste de toutes les clients
-        return ListClients;
+        return listeClients;
     }
 
     @Override
@@ -99,9 +97,7 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
 
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
-                adresseDAO.fermetureConnexion();
                 objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
-                loginDAO.fermetureConnexion();
             }
 
         }

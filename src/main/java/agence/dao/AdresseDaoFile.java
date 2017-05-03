@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import agence.model.Adresse;
+import agence.model.Client;
 
 /**
  * @author Seme
@@ -128,6 +129,16 @@ public class AdresseDaoFile implements AdresseDao
             }
         }
         return adresse;
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.AdresseDao#findByClient(agence.model.Client)
+     */
+    @Override
+    public Adresse findByClient(Client client)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -44,10 +44,6 @@ public class CompagnieAerienneVolDaoSQL extends DaoSQL
                 // Ajout du nouvel objet Aeroport créé à la liste des élèves
                 compagnieaeriennevols.add(compagnieaeriennevol);
             } // fin de la boucle de parcours de l'ensemble des résultats
-
-            volDAO.fermetureConnexion();
-            compagnieDAO.fermetureConnexion();
-
         }
         catch (SQLException e)
         {
@@ -82,8 +78,6 @@ public class CompagnieAerienneVolDaoSQL extends DaoSQL
                         .setVol(volDAO.findById(tuple.getInt("idVol")));
                 compagnieAerienneVol.setCompagnieAerienne(
                         compagnieDAO.findById(tuple.getInt("idCompagnie")));
-                volDAO.fermetureConnexion();
-                compagnieDAO.fermetureConnexion();
             }
 
         }

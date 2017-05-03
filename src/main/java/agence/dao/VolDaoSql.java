@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import agence.model.Escale;
 import agence.model.Vol;
 
 public class VolDaoSql extends DaoSQL implements VolDao
@@ -17,6 +18,7 @@ public class VolDaoSql extends DaoSQL implements VolDao
         List<Vol> vols = new ArrayList<Vol>();
         // Création d'un objet aeroport pour faire un findbyid;
         AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        EscaleDao escaleDao = new EscaleDaoSql();
         // Connexion à la BDD
         try
         {
@@ -41,6 +43,14 @@ public class VolDaoSql extends DaoSQL implements VolDao
                         .findById(tuple.getInt("idAeroportArrivee")));
                 vol.setAeroportDepart(
                         aeroportDAO.findById(tuple.getInt("idAeroportDepart")));
+                /*
+                 * Recherche des escales
+                 */
+                List<Escale> escales = escaleDao.findByVol(vol);
+                if(escales != null){
+                    // liaison avec le vol
+                    vol.setEscales(escales);
+                }
                 // Ajout du nouvel objet vol créé à la liste des vols
                 vols.add(vol);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats

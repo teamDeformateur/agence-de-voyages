@@ -3,8 +3,6 @@
  */
 package agence.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,10 +59,6 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
                 listePassagers.add(passager);
             }
 
-            /*
-             * Etape 5 : je ferme la connexion à la BDD
-             */
-            connexion.close();
         }
         catch (SQLException e)
         {
@@ -86,17 +80,6 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
         Passager passager = null;
         try
         {
-            /*
-             * Etape 0 : chargement du pilote
-             */
-            Class.forName("com.mysql.jdbc.Driver");
-
-            /*
-             * Etape 1 : se connecter à la BDD
-             */
-            Connection connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/agence", "user", "password");
-
             /*
              * Etape 2 : Création du statement
              */
@@ -125,15 +108,6 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
                         adresseDao.findById(resultSet.getInt("idAdd")));
             }
 
-            /*
-             * Etape 5 : je ferme la connexion à la BDD
-             */
-            connexion.close();
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.err.println("Impossible de charger le pilote JDBC.");
-            e.printStackTrace();
         }
         catch (SQLException e)
         {

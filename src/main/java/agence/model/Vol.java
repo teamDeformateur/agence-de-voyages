@@ -197,17 +197,22 @@ public class Vol
 
     public String toString()
     {
-        String reponse = "Le vol  de : " + this.aeroportDepart.getNom()
-                + " qui part le " + this.dateDepart + " à " + this.heureDepart
-                + "\n Arrivera à " + this.aeroportArrivee.getNom() + " à "
-                + this.heureArrivee + "\nIl fera des escales à : ";
-        for (int i = 0; i < escales.size(); i++)
+        String reponse = "Le vol qui part de : " + this.aeroportDepart.getNom()
+                + " le " + this.dateDepart + " à " + this.heureDepart
+                + "\n\tarrivera à " + this.aeroportArrivee.getNom() + " le "
+                + this.dateArrivee + " à " + this.heureArrivee;
+        if (escales.size() > 0)
         {
-            reponse += "\n" + this.escales.get(i).getAeoroport().getNom()
-                    + " le " + this.escales.get(i).getDateArrivee() + " à "
-                    + this.escales.get(i).getHeureArrivee() + "jusqu'au"
-                    + this.escales.get(i).getDateDepart() + " à "
-                    + this.escales.get(i).getHeureDepart();
+            reponse += "\n\t\tIl fera des escales à : ";
+            for (int i = 0; i < escales.size(); i++)
+            {
+                reponse += "\n\t\t\t"
+                        + this.escales.get(i).getAeoroport().getNom() + " le "
+                        + this.escales.get(i).getDateArrivee() + " à "
+                        + this.escales.get(i).getHeureArrivee() + " jusqu'au "
+                        + this.escales.get(i).getDateDepart() + " à "
+                        + this.escales.get(i).getHeureDepart();
+            }
         }
 
         return reponse;
