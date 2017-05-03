@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * @author Seme
  */
-public class DaoSQL
+public abstract class DaoSQL
 {
     protected Connection connexion;
 
@@ -55,5 +55,6 @@ public class DaoSQL
             e.printStackTrace();
         }
     }
+
 
 }

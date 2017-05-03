@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import agence.model.Client;
-import agence.model.ClientMoral;
 import agence.model.ClientPhysique;
 
 /**
@@ -91,7 +90,7 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
 
             if (tuple.next())
             {
-                objClient = new ClientMoral(tuple.getInt("idClient"));
+                objClient = new ClientPhysique(tuple.getInt("idClient"));
                 objClient.setNom(tuple.getString("nom"));
                 ((ClientPhysique) objClient).setPrenom(tuple.getString("prenom"));
                 objClient.setNumeroTel(tuple.getString("numTel"));

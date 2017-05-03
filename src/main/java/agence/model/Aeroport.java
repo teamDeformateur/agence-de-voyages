@@ -10,7 +10,7 @@ public class Aeroport
 {
 
     /**
-     * id techinque de l'aéroport
+     * id technique de l'aéroport
      */
     private int idAer;
 

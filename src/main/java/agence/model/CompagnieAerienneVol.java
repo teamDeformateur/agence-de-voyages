@@ -13,10 +13,6 @@ public class CompagnieAerienneVol
      */
     private int id;
     /**
-     * Identifiant technique de la compagnie
-     */
-    private int idCompagnie;
-    /**
      * Compagnie aérienne
      */
     private CompagnieAerienne compagnieAerienne;
@@ -64,23 +60,6 @@ public class CompagnieAerienneVol
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    /**
-     * @return the idCompagnie
-     */
-    public int getIdCompagnie()
-    {
-        return idCompagnie;
-    }
-
-    /**
-     * @param idCompagnie
-     *            the idCompagnie to set
-     */
-    public void setIdCompagnie(int idCompagnie)
-    {
-        this.idCompagnie = idCompagnie;
     }
 
     /**
@@ -154,9 +133,9 @@ public class CompagnieAerienneVol
     @Override
     public String toString()
     {
-        return "CompagnieAerienneVol [id=" + id + ", idCompagnie=" + idCompagnie
-                + ", compagnieAerienne=" + compagnieAerienne + ", vol=" + vol
-                + ", numero=" + numero + ", ouvert=" + ouvert + "]";
+        return "CompagnieAerienneVol [id=" + id + ", compagnieAerienne="
+                + compagnieAerienne + ", vol=" + vol + ", numero=" + numero
+                + ", ouvert=" + ouvert + "]";
     }
 
 }

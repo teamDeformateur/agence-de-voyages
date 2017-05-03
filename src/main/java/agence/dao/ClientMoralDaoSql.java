@@ -48,7 +48,7 @@ public class ClientMoralDaoSql extends ClientDaoSql
                 objClient.setNumeroTel(tuple.getString("numTel"));
                 objClient.setNumeroFax(tuple.getString("numFax"));
                 objClient.setEmail(tuple.getString("eMail"));
-                ((ClientMoral) objClient).setSiret(tuple.getInt("siret"));
+                ((ClientMoral) objClient).setSiret(tuple.getLong("siret"));
 
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
@@ -95,7 +95,7 @@ public class ClientMoralDaoSql extends ClientDaoSql
                 objClient.setNumeroTel(tuple.getString("numTel"));
                 objClient.setNumeroFax(tuple.getString("numFax"));
                 objClient.setEmail(tuple.getString("eMail"));
-                ((ClientMoral) objClient).setSiret(tuple.getInt("siret"));
+                ((ClientMoral) objClient).setSiret(tuple.getLong("siret"));
 
                 objClient
                         .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
