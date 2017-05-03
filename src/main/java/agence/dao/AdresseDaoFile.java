@@ -15,14 +15,12 @@ import agence.model.Adresse;
 
 /**
  * @author Seme
- *
  */
 public class AdresseDaoFile implements AdresseDao
 {
 
     /*
      * (non-Javadoc)
-     * 
      * @see agence.dao.Dao#findAll()
      */
     @Override
@@ -69,7 +67,6 @@ public class AdresseDaoFile implements AdresseDao
 
     /*
      * (non-Javadoc)
-     * 
      * @see agence.dao.AdresseDao#findById(java.lang.Integer)
      */
     @Override

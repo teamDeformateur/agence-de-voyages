@@ -5,6 +5,7 @@ package agence.model;
 
 /**
  * Classe qui représente l'objet métier Adresse
+ * 
  * @author seme
  */
 public class Adresse

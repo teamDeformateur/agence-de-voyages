@@ -11,55 +11,8 @@ import java.util.List;
 
 import agence.model.Adresse;
 
-public class AdresseDaoSql implements AdresseDao
+public class AdresseDaoSql extends DaoSQL implements AdresseDao
 {
-    /**
-     * Connexion à la BDD
-     */
-    private Connection connexion;
-
-    /**
-     * Constructeur par défaut qui charge le driver et qui instancie la
-     * connexion
-     */
-    public AdresseDaoSql()
-    {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/agence", "user", "password");
-        }
-        catch (SQLException e)
-        {
-
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Ferme la connexion à la BDD
-     */
-    public void fermetureConnexion()
-    {
-        try
-        {
-            connexion.close();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public List<Adresse> findAll()

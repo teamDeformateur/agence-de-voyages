@@ -18,7 +18,7 @@ import agence.model.Reservation;
 /**
  * @author Seme
  */
-public class ReservationDaoSql implements ReservationDao
+public class ReservationDaoSql extends DaoSQL implements ReservationDao
 {
     PassagerDao passagerDao = new PassagerDaoSql();
 
@@ -33,17 +33,6 @@ public class ReservationDaoSql implements ReservationDao
         List<Reservation> listeBO = new ArrayList<>();
         try
         {
-            /*
-             * Etape 0 : chargement du pilote
-             */
-            Class.forName("com.mysql.jdbc.Driver");
-
-            /*
-             * Etape 1 : se connecter à la BDD
-             */
-            Connection connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/agence", "user", "password");
-
             /*
              * Etape 2 : Création du statement
              */
@@ -84,21 +73,11 @@ public class ReservationDaoSql implements ReservationDao
              */
             connexion.close();
         }
-        catch (ClassNotFoundException e)
-        {
-            System.err.println("Impossible de charger le pilote JDBC.");
-            e.printStackTrace();
-        }
         catch (SQLException e)
         {
             System.err.println("Impossible de se connecter à la BDD.");
             e.printStackTrace();
         }
-        // catch (ParseException e)
-        // {
-        // System.err.println("Impossible de parser la date.");
-        // e.printStackTrace();
-        // }
         // Je retourne la liste des passagers de la BDDonnéys
         return listeBO;
     }

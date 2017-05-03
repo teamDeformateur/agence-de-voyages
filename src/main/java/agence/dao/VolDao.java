@@ -7,7 +7,6 @@ import agence.model.Vol;
  * BO = Vol - PK = Integer
  * 
  * @author Eric Sultan
- *
  */
 public interface VolDao extends Dao<Vol, Integer>
 {

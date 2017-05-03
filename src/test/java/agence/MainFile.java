@@ -4,13 +4,10 @@ import java.util.List;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoFile;
-import agence.dao.AeroportDaoSQL;
-import agence.dao.EscaleDaoSql;
 import agence.dao.PassagerDao;
 import agence.dao.PassagerDaoFile;
 import agence.dao.ReservationDao;
 import agence.dao.ReservationDaoFile;
-import agence.dao.VolDaoSql;
 import agence.model.Adresse;
 import agence.model.Passager;
 import agence.model.Reservation;
@@ -32,8 +29,8 @@ public class MainFile
         List<Reservation> reservations = reservationDao.findAll();
         Reservation reservation = reservationDao.findById(2);
         // Recherche par passager
-        List<Reservation> reservationsPassager = reservationDao.findByPassager(passager);
-       
+        List<Reservation> reservationsPassager = reservationDao
+                .findByPassager(passager);
 
     }
 

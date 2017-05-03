@@ -4,7 +4,6 @@ package agence.model;
  * Classe Passager qui représente le passager de la réservation
  * 
  * @author Seme
- *
  */
 public class Passager
 {
@@ -114,7 +113,6 @@ public class Passager
 
     /*
      * (non-Javadoc)
-     * 
      * @see java.lang.Object#toString()
      */
     @Override

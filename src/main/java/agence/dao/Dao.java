@@ -6,7 +6,6 @@ import java.util.List;
  * Contrat que tous les DAOs devront respecter.
  * 
  * @author seme
- *
  * @param <T>
  * @param <PK>
  */

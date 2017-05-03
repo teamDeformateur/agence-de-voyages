@@ -189,8 +189,8 @@ public class ReservationDaoFile implements ReservationDao
         try
         {
             // On ouvre le fichier à lire
-            bReader = new BufferedReader(
-                    new FileReader(new File("src/resources/reservations_passager.csv")));
+            bReader = new BufferedReader(new FileReader(
+                    new File("src/resources/reservations_passager.csv")));
             // chaîne temporaire
             String s;
             // indicateur de première ligne
