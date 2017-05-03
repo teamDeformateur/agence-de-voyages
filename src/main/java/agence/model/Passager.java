@@ -38,6 +38,13 @@ public class Passager
     }
 
     /**
+     * 
+     */
+    public Passager()
+    {
+    }
+
+    /**
      * @return the idPas
      */
     public int getIdPas()

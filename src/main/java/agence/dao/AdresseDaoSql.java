@@ -98,36 +98,66 @@ public class AdresseDaoSql implements AdresseDao
     @Override
     public Adresse findById(Integer idAdd)
     {
-        // Déclaration d'un objet Client
-        Adresse objAdresse = null;
-
+        // Initialiser ma liste d'adresses
+        Adresse adresse = null;
         try
         {
-            // Connexion à la BDD
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM adresse WHERE idAdd=?");
-            // Cherche l'idVill voulu dans la BDD
-            ps.setInt(1, idAdd);
+            /*
+             * Etape 0 : chargement du pilote
+             */
+            Class.forName("com.mysql.jdbc.Driver");
 
-            // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            /*
+             * Etape 1 : se connecter à la BDD
+             */
+            Connection connexion = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/agence", "user", "password");
 
-            if (tuple.next())
+            /*
+             * Etape 2 : Création du statement
+             */
+            Statement statement = connexion.createStatement();
+
+            /*
+             * Etape 3 : Exécution de la requête SQL
+             */
+            ResultSet resultSet = statement
+                    .executeQuery("SELECT * FROM adresse WHERE idAdd = " + id);
+
+            /*
+             * Etape 4 : Parcours des résultats
+             */
+            if (resultSet.next())
             {
-                objAdresse = new Adresse(tuple.getInt("idAdd"));
-                objAdresse.setAdresse(tuple.getString("adresse"));
-                objAdresse.setCodePostal(tuple.getString("codePostal"));
-                objAdresse.setVille(tuple.getString("ville"));
-                objAdresse.setPays(tuple.getString("pays"));
+                // Chaque ligne du tableau de résultat peut être exploitée
+                // cad, on va récupérer chaque valeur de chaque colonne
+                // je crée l'objet adresse
+                adresse = new Adresse();
+                // appel des mutateurs
+                adresse.setIdAdd(resultSet.getInt("idAdd"));
+                adresse.setAdresse(resultSet.getString("adresse"));
+                adresse.setCodePostal(resultSet.getString("codePostal"));
+                adresse.setVille(resultSet.getString("ville"));
+                adresse.setPays(resultSet.getString("pays"));
             }
 
+            /*
+             * Etape 5 : je ferme la connexion à la BDD
+             */
+            connexion.close();
+        }
+        catch (ClassNotFoundException e)
+        {
+            System.err.println("Impossible de charger le pilote JDBC.");
+            e.printStackTrace();
         }
         catch (SQLException e)
         {
+            System.err.println("Impossible de se connecter à la BDD.");
             e.printStackTrace();
         }
-
-        return objAdresse;
+        // Je retourne l'adresse
+        return adresse;
     }
 
 }

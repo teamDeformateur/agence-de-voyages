@@ -80,6 +80,17 @@ public class Reservation
         return idPas;
     }
 
+    /**
+     * 
+     */
+    public Reservation()
+    {
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @return the idRes
+     */
     public int getIdRes()
     {
         return idRes;
