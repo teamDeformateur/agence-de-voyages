@@ -32,10 +32,7 @@ public class Reservation
     private Passager passager;
 
     /**
-     * Constructeur
-     * 
-     * @param idRes
-     *            Identifiant technique de la réservation
+     * id du passager
      */
     private int idPas;
     /**
@@ -47,37 +44,15 @@ public class Reservation
      * Vol associé à la réservation
      */
     private Vol vol;
-    private Passager passager;
+
+    /**
+     * Client qui a effectué la réservation
+     */
     private Client client;
 
     public Reservation(int idRes)
     {
         this.idRes = idRes;
-    }
-
-    public Client getClient()
-    {
-        return client;
-    }
-
-    public Date getDate()
-    {
-        return date;
-    }
-
-    public EtatReservation getEtat()
-    {
-        return etat;
-    }
-
-    public int getIdCli()
-    {
-        return idCli;
-    }
-
-    public int getIdPas()
-    {
-        return idPas;
     }
 
     /**
@@ -113,21 +88,10 @@ public class Reservation
         return date;
     }
 
-    public Passager getPassager()
-    {
-        return passager;
-    }
-
-    public Vol getVol()
-    {
-        return vol;
-    }
-
-    public void setClient(Client client)
-    {
-        this.client = client;
-    }
-
+    /**
+     * @param date
+     *            the date to set
+     */
     public void setDate(Date date)
     {
         this.date = date;
@@ -141,12 +105,11 @@ public class Reservation
         return numero;
     }
 
-    public void setIdCli(int idCli)
-    {
-        this.idCli = idCli;
-    }
-
-    public void setIdPas(int idPas)
+    /**
+     * @param numero
+     *            the numero to set
+     */
+    public void setNumero(String numero)
     {
         this.numero = numero;
     }
@@ -185,9 +148,72 @@ public class Reservation
         this.passager = passager;
     }
 
+    /**
+     * @return the idPas
+     */
+    public int getIdPas()
+    {
+        return idPas;
+    }
+
+    /**
+     * @param idPas
+     *            the idPas to set
+     */
+    public void setIdPas(int idPas)
+    {
+        this.idPas = idPas;
+    }
+
+    /**
+     * @return the idCli
+     */
+    public int getIdCli()
+    {
+        return idCli;
+    }
+
+    /**
+     * @param idCli
+     *            the idCli to set
+     */
+    public void setIdCli(int idCli)
+    {
+        this.idCli = idCli;
+    }
+
+    /**
+     * @return the vol
+     */
+    public Vol getVol()
+    {
+        return vol;
+    }
+
+    /**
+     * @param vol
+     *            the vol to set
+     */
     public void setVol(Vol vol)
     {
         this.vol = vol;
+    }
+
+    /**
+     * @return the client
+     */
+    public Client getClient()
+    {
+        return client;
+    }
+
+    /**
+     * @param client
+     *            the client to set
+     */
+    public void setClient(Client client)
+    {
+        this.client = client;
     }
 
     public String toString()

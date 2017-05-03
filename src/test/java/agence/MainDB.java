@@ -7,10 +7,13 @@ import java.util.List;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoSql;
+import agence.dao.AeroportDaoSQL;
+import agence.dao.EscaleDaoSql;
 import agence.dao.PassagerDao;
 import agence.dao.PassagerDaoSql;
 import agence.dao.ReservationDao;
 import agence.dao.ReservationDaoSql;
+import agence.dao.VolDaoSql;
 import agence.model.Adresse;
 import agence.model.Passager;
 import agence.model.Reservation;
@@ -56,6 +59,24 @@ public class MainDB
         List<Reservation> listeReservations = reservationDao.findAll();
         Reservation reservation = reservationDao.findById(10);
         listeReservations = reservationDao.findByPassager(passager);
+
+        AeroportDaoSQL aeroport = new AeroportDaoSQL();
+        aeroport.findAll();
+        aeroport.findById(1);
+        aeroport.fermetureConnexion();
+
+        EscaleDaoSql escale = new EscaleDaoSql();
+        escale.findAll();
+        escale.findById(30);
+        aeroport.fermetureConnexion();
+
+        VolDaoSql vol = new VolDaoSql();
+        vol.findAll();
+        vol.findById(1);
+        vol.fermetureConnexion();
+
+        vol.toString();
+        aeroport.toString();
 
     }
 
