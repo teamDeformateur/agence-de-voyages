@@ -3,7 +3,6 @@
  */
 package agence;
 
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -48,6 +47,7 @@ import agence.model.Reservation;
 import agence.model.Ville;
 import agence.model.VilleAeroport;
 import agence.model.Vol;
+import agence.views.ConsoleView;
 
 /**
  * Classe principale de test de récupération de données via la BDD
@@ -56,6 +56,18 @@ import agence.model.Vol;
  */
 public class MainDB
 {
+    /*
+     * Liste des vues
+     */
+    /**
+     * Vue Console
+     */
+    public static ConsoleView console = new ConsoleView();
+
+    /**
+     * Connexion à la BDD
+     */
+    private static Connection connexion;
 
     /**
      * Méthode principale qui va faire appel à toutes les méthodes de
@@ -69,39 +81,41 @@ public class MainDB
      */
     public static void main(String[] args)
     {
-        Connection connexion = seConnecter();
+        connexion = seConnecter();
 
         if (connexion != null)
         {
-
             // J'instancie le dao SQL des adresses
             AdresseDao adresseDao = new AdresseDaoSql(connexion);
             // J'appelle la méthode findAll pour récupérer toutes les adresses
             // stockées en BDD
             List<Adresse> listeAdresses = adresseDao.findAll();
             Adresse adresse = adresseDao.findById(1);
-            afficherTestEtResultat("Liste des adresses", listeAdresses);
-            afficherTestEtResultat("Une seule adresse", adresse);
+            console.afficherTestEtResultat("Liste des adresses", listeAdresses);
+            console.afficherTestEtResultat("Une seule adresse", adresse);
 
             AeroportDao aeroportDao = new AeroportDaoSql(connexion);
             List<Aeroport> listeAeroports = aeroportDao.findAll();
             Aeroport aeroport = aeroportDao.findById(1);
-            afficherTestEtResultat("Liste des aéroports", listeAeroports);
-            afficherTestEtResultat("Un seul aéroport", aeroport);
+            console.afficherTestEtResultat("Liste des aéroports",
+                    listeAeroports);
+            console.afficherTestEtResultat("Un seul aéroport", aeroport);
 
             ClientDao clientDao = new ClientMoralDaoSql(connexion);
             List<Client> listeClientsMoraux = clientDao.findAll();
             Client clientMoral = clientDao.findById(30);
-            afficherTestEtResultat("Liste des clients personnes morales",
-                    listeClientsMoraux);
-            afficherTestEtResultat("Un client personne morale", clientMoral);
+            console.afficherTestEtResultat(
+                    "Liste des clients personnes morales", listeClientsMoraux);
+            console.afficherTestEtResultat("Un client personne morale",
+                    clientMoral);
 
             clientDao = new ClientPhysiqueDaoSql(connexion);
             List<Client> listeClientsPhysiques = clientDao.findAll();
-            afficherTestEtResultat("Liste des clients personne physique",
+            console.afficherTestEtResultat(
+                    "Liste des clients personne physique",
                     listeClientsPhysiques);
             Client clientPhysique = clientDao.findById(10);
-            afficherTestEtResultat("Un seul client personne physique",
+            console.afficherTestEtResultat("Un seul client personne physique",
                     clientPhysique);
             // Je cherche une adresse en fonction d'un client
             adresse = adresseDao.findByClient(clientPhysique);
@@ -111,76 +125,81 @@ public class MainDB
                     connexion);
             List<CompagnieAerienne> listeCompagniesAeriennes = compagnieAerienneDao
                     .findAll();
-            afficherTestEtResultat("Liste des compagnies aériennes",
+            console.afficherTestEtResultat("Liste des compagnies aériennes",
                     listeCompagniesAeriennes);
             CompagnieAerienne compagnieAerienne = compagnieAerienneDao
                     .findById(2);
-            afficherTestEtResultat("Une seule compagnie aérienne",
+            console.afficherTestEtResultat("Une seule compagnie aérienne",
                     compagnieAerienne);
 
             CompagnieAerienneVolDao compagnieAerienneVolDao = new CompagnieAerienneVolDaoSql(
                     connexion);
             List<CompagnieAerienneVol> listeCompagniesAeriennesVol = compagnieAerienneVolDao
                     .findAll();
-            afficherTestEtResultat("Liste des liens compagnie-vol",
+            console.afficherTestEtResultat("Liste des liens compagnie-vol",
                     listeCompagniesAeriennesVol);
             CompagnieAerienneVol compagnieAerienneVol = compagnieAerienneVolDao
                     .findById(2);
-            afficherTestEtResultat("Un lien compagnie-vol",
+            console.afficherTestEtResultat("Un lien compagnie-vol",
                     compagnieAerienneVol);
 
             EscaleDao escaleDao = new EscaleDaoSql(connexion);
             List<Escale> listeEscales = escaleDao.findAll();
-            afficherTestEtResultat("Liste des escales", listeEscales);
+            console.afficherTestEtResultat("Liste des escales", listeEscales);
             Escale escale = escaleDao.findById(30);
-            afficherTestEtResultat("Une seule escale", escale);
+            console.afficherTestEtResultat("Une seule escale", escale);
 
             LoginDao loginDao = new LoginDaoSql(connexion);
             List<Login> listeLogins = loginDao.findAll();
-            afficherTestEtResultat("Liste des logins", listeLogins);
+            console.afficherTestEtResultat("Liste des logins", listeLogins);
             Login login = loginDao.findById(2);
-            afficherTestEtResultat("Un seul login", login);
+            console.afficherTestEtResultat("Un seul login", login);
 
             // J'instancie le dao SQL de l'objet métier à récupérer
             PassagerDao passagerDao = new PassagerDaoSql(connexion);
             // J'appelle la méthode findAll pour récupérer tous les BO de ce
             // type de la BDD
             List<Passager> listePassagers = passagerDao.findAll();
-            afficherTestEtResultat("Liste des passagers", listePassagers);
+            console.afficherTestEtResultat("Liste des passagers",
+                    listePassagers);
             Passager passager = passagerDao.findById(1);
-            afficherTestEtResultat("Un seul passager", passager);
+            console.afficherTestEtResultat("Un seul passager", passager);
 
             // J'instancie le dao SQL de l'objet métier à récupérer
             ReservationDao reservationDao = new ReservationDaoSql(connexion);
             // J'appelle la méthode findAll pour récupérer tous les BO de ce
             // type de la BDD
             List<Reservation> listeReservations = reservationDao.findAll();
-            afficherTestEtResultat("Liste des réservations", listeReservations);
+            console.afficherTestEtResultat("Liste des réservations",
+                    listeReservations);
             Reservation reservation = reservationDao.findById(10);
-            afficherTestEtResultat("Une seule réservation", reservation);
+            console.afficherTestEtResultat("Une seule réservation",
+                    reservation);
             listeReservations = reservationDao.findByPassager(passager);
 
             VilleAeroportDao villeAeroportDao = new VilleAeroportDaoSql(
                     connexion);
             List<VilleAeroport> listeVilleAeroports = villeAeroportDao
                     .findAll();
-            afficherTestEtResultat("Liste des liens ville-aéroport",
+            console.afficherTestEtResultat("Liste des liens ville-aéroport",
                     listeVilleAeroports);
             VilleAeroport villeAeroport = villeAeroportDao.findById(3);
-            afficherTestEtResultat("Une seul lien ville-aéroport",
+            console.afficherTestEtResultat("Une seul lien ville-aéroport",
                     villeAeroport);
 
             VilleDao villeDao = new VilleDaoSQL(connexion);
             List<Ville> listeVilles = villeDao.findAll();
-            afficherTestEtResultat("Liste des villes", listeVilles);
+            console.afficherTestEtResultat("Liste des villes", listeVilles);
             Ville ville = villeDao.findById(2);
-            afficherTestEtResultat("Une seule ville", ville);
+            console.afficherTestEtResultat("Une seule ville", ville);
 
             VolDao volDao = new VolDaoSql(connexion);
             List<Vol> listeVols = volDao.findAll();
-            afficherTestEtResultat("Liste des vols", listeVols);
+            console.afficherTestEtResultat("Liste des vols", listeVols);
             Vol vol = volDao.findById(1);
-            afficherTestEtResultat("Un seul vol", vol);
+            console.afficherTestEtResultat("Un seul vol", vol);
+
+            console.afficherTestEtResultat("Fin des tests", null);
 
             libererResultatsDaoSql(new Dao[]
             { adresseDao, clientDao, aeroportDao, compagnieAerienneDao,
@@ -196,10 +215,11 @@ public class MainDB
      * 
      * @param connexion
      */
-    private static void seDeconnecter(Connection connexion)
+    static void seDeconnecter(Connection connexion)
     {
         try
         {
+            // Fermeture de la connexion
             connexion.close();
         }
         catch (SQLException e)
@@ -217,7 +237,7 @@ public class MainDB
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    private static Connection seConnecter()
+    static Connection seConnecter()
     {
         Connection connexion = null;
         try
@@ -252,74 +272,6 @@ public class MainDB
         {
             ((DaoSQL) dao).libererResultats();
         }
-    }
-
-    /**
-     * @param <T>
-     * @param test
-     * @param t
-     */
-    private static <T> void afficherTestEtResultat(String test, T t)
-    {
-        afficherTest(test);
-        afficherResultat(t);
-    }
-
-    /**
-     * @param <T>
-     * @param test
-     * @param liste
-     */
-    private static <T> void afficherTestEtResultat(String test, List<T> liste)
-    {
-        afficherTest(test);
-        afficherListe(liste);
-
-    }
-
-    /**
-     * @param <T>
-     * @param adresse
-     */
-    private static <T> void afficherResultat(T objet)
-    {
-        System.out.println(objet.toString());
-    }
-
-    /**
-     * @param string
-     */
-    private static void afficherTest(String string)
-    {
-        String fmtEntete = "|";
-        String separateur = "+-----------------------------------------------------------------------------------------------------------+\n";
-        // String separateur = "+----------+\n";
-        int avant = (separateur.length() - 2 - string.length()) / 2;
-        int apres = separateur.length() - avant - 4;
-        for (int i = 0; i < avant; i++)
-        {
-            fmtEntete += " ";
-        }
-        fmtEntete += "%1$-" + Integer.toString(apres) + "s |%n";
-
-        PrintStream console = System.out;
-        console.printf("%s", separateur);
-        console.printf(fmtEntete, string);
-        console.printf("%s", separateur);
-
-    }
-
-    /**
-     * @param <T>
-     * @param listeAdresses
-     */
-    private static <T> void afficherListe(List<T> liste)
-    {
-        for (T t : liste)
-        {
-            System.out.println(t.toString());
-        }
-
     }
 
 }
