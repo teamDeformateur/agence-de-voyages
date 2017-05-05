@@ -24,6 +24,9 @@ import agence.dao.VilleAeroportDao;
 import agence.dao.VilleDao;
 import agence.dao.VolDao;
 import agence.dao.VolDaoSql;
+import agence.model.Client;
+import agence.model.ClientMoral;
+import agence.model.ClientPhysique;
 import agence.views.ConsoleView;
 
 /**
@@ -89,6 +92,7 @@ public class MainCRUD
                 case 13:
                     break;
                 case 2:
+                {
                     boolean annuler = false;
                     // boucle de saisie
                     do
@@ -119,8 +123,39 @@ public class MainCRUD
                         in.reset();
                     }
                     while (!annuler);
+                }
                     break;
                 case 21:
+                {
+                    boolean annuler = false;
+                    // boucle de saisie
+                    do
+                    {
+                        console.displayMenuClient();
+                        // Entrée
+                        // in = new Scanner(System.in);
+                        int choixClient = in.nextInt();
+                        switch (choixClient)
+                        {
+                            case 1:
+                                clientDao = new ClientMoralDaoSql(connexion);
+                                interfaceModifierClient(clientDao);
+                                annuler = true;
+                                break;
+                            case 2:
+                                clientDao = new ClientPhysiqueDaoSql(connexion);
+                                interfaceModifierClient(clientDao);
+                                annuler = true;
+                                break;
+                            case 0:
+                                System.out.println("Annulation...");
+                                annuler = true;
+                                break;
+                        }
+                        in.reset();
+                    }
+                    while (!annuler);
+                }
                     break;
                 case 22:
                     break;
@@ -158,6 +193,103 @@ public class MainCRUD
         }
         while (!quitter);
         in.close();
+    }
+
+    /**
+     * @param clientDao
+     */
+    private static void interfaceModifierClient(ClientDao clientDao)
+    {
+        Scanner in;
+        System.out.println(
+                "Veuillez saisir l'identifiant du client que vous souhaitez modifier : ");
+        in = new Scanner(System.in);
+        String idCli = in.next();
+        Client clientAModifier = clientDao.findById(Integer.parseInt(idCli));
+        if (clientAModifier != null)
+        {
+            String nom = clientAModifier.getNom();
+            String prenom = null;
+            Long siret = null;
+            // si c'est un client personne physique
+            if (clientAModifier instanceof ClientPhysique)
+            {
+                prenom = ((ClientPhysique) clientAModifier).getPrenom();
+            }
+            else
+            {
+                siret = ((ClientMoral) clientAModifier).getSiret();
+            }
+            String numTel = clientAModifier.getNumeroTel();
+            String numFax = clientAModifier.getNumeroFax();
+            String courriel = clientAModifier.getEmail();
+
+            /*
+             * Changement du nom
+             */
+            clientAModifier.setNom(saisirChangement("nom", nom));
+
+            /*
+             * Changement du prénom ou du SIRET
+             */
+            if (prenom != null)
+            {
+                ((ClientPhysique) clientAModifier)
+                        .setPrenom(saisirChangement("prénom", prenom));
+            }
+            else
+            {
+                ((ClientMoral) clientAModifier).setSiret(
+                        Long.parseLong(saisirChangement("numéro SIRET",
+                                Long.toString(siret))));
+            }
+
+            /*
+             * Changement du numéro de téléphone
+             */
+            clientAModifier.setNumeroTel(
+                    saisirChangement("numéro de téléphone", numTel));
+
+            /*
+             * Changement du numéro de fax
+             */
+            clientAModifier.setNumeroFax(
+                    saisirChangement("numéro de télécopie", numFax));
+
+            /*
+             * Changement de l'adresse email
+             */
+            clientAModifier.setEmail(saisirChangement("courriel", courriel));
+
+            // une fois qu'on a récupéré toutes les modifications,
+            // on lance la fonction du DAO qui va mettre à jour
+            clientDao.update(clientAModifier);
+            System.out.println("Client modifié.");
+            console.waitNext();
+        }
+        else
+        {
+            System.err.println("Aucun client avec cet identifiant.");
+        }
+    }
+
+    /**
+     * @param nomDuChamp
+     * @param champ
+     * @return
+     */
+    private static String saisirChangement(String nomDuChamp, String champ)
+    {
+        System.out.printf("Nouveau %s [%s] : ", nomDuChamp, champ);
+        String saisie = ConsoleView.lireConsole();
+        if (saisie.length() > 0 && !saisie.equals(champ))
+        {
+            return saisie;
+        }
+        else
+        {
+            return champ;
+        }
     }
 
     /**

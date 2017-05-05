@@ -127,4 +127,56 @@ public class ClientMoralDaoSql extends ClientDaoSql
         return objClient;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(Client obj)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public Client update(Client obj)
+    {
+        try
+        {
+            PreparedStatement ps = connexion.prepareStatement(
+                    "update client set nom=?,numTel=?,numFax=?,eMail=?,siret=? where idClient = ?");
+
+            ps.setLong(6, obj.getIdCli());
+
+            ps.setString(1, obj.getNom());
+            ps.setString(2, obj.getNumeroTel());
+            ps.setString(3, obj.getNumeroFax());
+            ps.setString(4, obj.getEmail());
+            ps.setLong(5, ((ClientMoral) obj).getSiret());
+
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(Client obj)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }

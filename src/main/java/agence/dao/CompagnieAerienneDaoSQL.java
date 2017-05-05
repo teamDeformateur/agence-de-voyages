@@ -86,4 +86,34 @@ public class CompagnieAerienneDaoSql extends DaoSQL
         return compagnieAerienne;
     }
 
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(CompagnieAerienne obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public CompagnieAerienne update(CompagnieAerienne obj)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(CompagnieAerienne obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

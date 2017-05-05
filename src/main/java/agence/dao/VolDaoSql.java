@@ -109,4 +109,34 @@ public class VolDaoSql extends DaoSQL implements VolDao
 
         return vol;
     }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(Vol obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public Vol update(Vol obj)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(Vol obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

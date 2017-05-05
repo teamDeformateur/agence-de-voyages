@@ -195,20 +195,6 @@ public abstract class Client
         this.login = login;
     }
 
-    public String toString()
-    {
-        String reponse = "Le Client : " + this.nom + ", " + adresse.toString();
-        if (listeReservations.size() > 0)
-        {
-            reponse += " \n\ta effectué la/les reservation(s) : \n";
-            for (int i = 0; i < listeReservations.size(); i++)
-            {
-                reponse += "\t- " + this.listeReservations.get(i).getNumero()
-                        + "\n";
-            }
-        }
-
-        return reponse;
-    }
+    public abstract String toString();
 
 }

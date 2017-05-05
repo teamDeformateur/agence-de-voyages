@@ -289,4 +289,34 @@ public class ReservationDaoSql extends DaoSQL implements ReservationDao
         return listeBO;
     }
 
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(Reservation obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public Reservation update(Reservation obj)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(Reservation obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

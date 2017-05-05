@@ -37,4 +37,29 @@ public class ClientMoral extends Client
     {
         this.siret = siret;
     }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.model.Client#toString()
+     */
+    @Override
+    public String toString()
+    {
+        String reponse = "La personne morale : " + this.getNom()
+                + ", de siret : " + this.siret + ", numéro de téléphone : "
+                + this.getNumeroTel() + ", numéro de fax : "
+                + this.getNumeroFax() + ",\n\t" + this.getAdresse().toString();
+        if (this.getListeReservations().size() > 0)
+        {
+            reponse += " \n\ta effectué la/les reservation(s) : \n";
+            for (int i = 0; i < this.getListeReservations().size(); i++)
+            {
+                reponse += "\t- "
+                        + this.getListeReservations().get(i).getNumero() + "\n";
+            }
+        }
+
+        return reponse;
+    }
+
 }

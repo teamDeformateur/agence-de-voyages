@@ -84,4 +84,34 @@ public class AeroportDaoSql extends DaoSQL implements AeroportDao
         return aeroport;
     }
 
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(Aeroport obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#update(java.lang.Object)
+     */
+    @Override
+    public Aeroport update(Aeroport obj)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(Aeroport obj)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
