@@ -200,10 +200,11 @@ public abstract class Client
         String reponse = "Le Client : " + this.nom + ", " + adresse.toString();
         if (listeReservations.size() > 0)
         {
-            reponse += " a effectué la/les reservation(s) : \n";
+            reponse += " \n\ta effectué la/les reservation(s) : \n";
             for (int i = 0; i < listeReservations.size(); i++)
             {
-                reponse += "\n" + this.listeReservations.get(i).getNumero();
+                reponse += "\t- " + this.listeReservations.get(i).getNumero()
+                        + "\n";
             }
         }
 
