@@ -14,7 +14,7 @@ public class VilleAeroportDaoSql extends DaoSQL implements VilleAeroportDao
     public List<VilleAeroport> findAll()
     {
         List<VilleAeroport> villeAeroports = new ArrayList<VilleAeroport>();
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
         VilleDaoSQL villeDAO = new VilleDaoSQL();
         try
         {
@@ -57,7 +57,7 @@ public class VilleAeroportDaoSql extends DaoSQL implements VilleAeroportDao
     {
         // Déclaration d'un objet aeroport
         VilleAeroport villeAeroport = null;
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
         VilleDaoSQL villeDAO = new VilleDaoSQL();
 
         try

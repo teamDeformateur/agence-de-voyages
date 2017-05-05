@@ -17,7 +17,7 @@ public class VolDaoSql extends DaoSQL implements VolDao
         // Liste des vols que l'on va retourner
         List<Vol> vols = new ArrayList<Vol>();
         // Création d'un objet aeroport pour faire un findbyid;
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
         EscaleDao escaleDao = new EscaleDaoSql();
         // Connexion à la BDD
         try
@@ -74,7 +74,7 @@ public class VolDaoSql extends DaoSQL implements VolDao
         // Déclaration d'un objet vol
         Vol vol = null;
         // Création d'un objet aeroport pour faire un findbyid;
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
 
         try
         {

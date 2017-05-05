@@ -8,7 +8,7 @@ import java.util.List;
 
 import agence.model.CompagnieAerienneVol;
 
-public class CompagnieAerienneVolDaoSQL extends DaoSQL
+public class CompagnieAerienneVolDaoSql extends DaoSQL
         implements CompagnieAerienneVolDao
 {
     @Override
@@ -17,7 +17,7 @@ public class CompagnieAerienneVolDaoSQL extends DaoSQL
         // Liste des CompagnieAerienneVol que l'on va retourner
         List<CompagnieAerienneVol> compagnieaeriennevols = new ArrayList<CompagnieAerienneVol>();
         VolDaoSql volDAO = new VolDaoSql();
-        CompagnieAerienneDaoSQL compagnieDAO = new CompagnieAerienneDaoSQL();
+        CompagnieAerienneDaoSql compagnieDAO = new CompagnieAerienneDaoSql();
         // Connexion à la BDD
         try
         {
@@ -57,7 +57,7 @@ public class CompagnieAerienneVolDaoSQL extends DaoSQL
     {
         CompagnieAerienneVol compagnieAerienneVol = null;
         VolDaoSql volDAO = new VolDaoSql();
-        CompagnieAerienneDaoSQL compagnieDAO = new CompagnieAerienneDaoSQL();
+        CompagnieAerienneDaoSql compagnieDAO = new CompagnieAerienneDaoSql();
         try
         {
 

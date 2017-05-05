@@ -8,14 +8,15 @@ import java.util.List;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoSql;
-import agence.dao.AeroportDaoSQL;
+import agence.dao.AeroportDaoSql;
 import agence.dao.ClientDaoSql;
 import agence.dao.ClientMoralDaoSql;
 import agence.dao.ClientPhysiqueDaoSql;
 import agence.dao.CompagnieAerienneDao;
-import agence.dao.CompagnieAerienneDaoSQL;
+import agence.dao.CompagnieAerienneDaoSql;
 import agence.dao.CompagnieAerienneVolDao;
-import agence.dao.CompagnieAerienneVolDaoSQL;
+import agence.dao.CompagnieAerienneVolDaoSql;
+import agence.dao.DaoSQL;
 import agence.dao.EscaleDaoSql;
 import agence.dao.LoginDao;
 import agence.dao.LoginDaoSql;
@@ -70,7 +71,7 @@ public class MainDB
         afficherTestEtResultat("Liste des adresses", listeAdresses);
         afficherTestEtResultat("Une seule adresse", adresse);
 
-        AeroportDaoSQL aeroportDao = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDao = new AeroportDaoSql();
         List<Aeroport> listeAeroports = aeroportDao.findAll();
         Aeroport aeroport = aeroportDao.findById(1);
         afficherTestEtResultat("Liste des aéroports", listeAeroports);
@@ -94,7 +95,10 @@ public class MainDB
         adresse = adresseDao.findByClient(clientPhysique);
         System.out.println("Liaison client-adresse : " + clientPhysique);
 
-        CompagnieAerienneDao compagnieAerienneDao = new CompagnieAerienneDaoSQL();
+        fermerConnexion(new DaoSQL[]
+        { (DaoSQL) adresseDao, clientDaoSql, aeroportDao });
+
+        CompagnieAerienneDao compagnieAerienneDao = new CompagnieAerienneDaoSql();
         List<CompagnieAerienne> listeCompagniesAeriennes = compagnieAerienneDao
                 .findAll();
         afficherTestEtResultat("Liste des compagnies aériennes",
@@ -103,7 +107,7 @@ public class MainDB
         afficherTestEtResultat("Une seule compagnie aérienne",
                 compagnieAerienne);
 
-        CompagnieAerienneVolDao compagnieAerienneVolDao = new CompagnieAerienneVolDaoSQL();
+        CompagnieAerienneVolDao compagnieAerienneVolDao = new CompagnieAerienneVolDaoSql();
         List<CompagnieAerienneVol> listeCompagniesAeriennesVol = compagnieAerienneVolDao
                 .findAll();
         afficherTestEtResultat("Liste des liens compagnie-vol",
@@ -164,6 +168,19 @@ public class MainDB
         afficherTestEtResultat("Un seul vol", vol);
         volDao.fermetureConnexion();
 
+    }
+
+    /**
+     * Ferme les connexions ouvertes par les DAO passés en paramètres
+     * 
+     * @param listeDao
+     */
+    private static void fermerConnexion(DaoSQL[] listeDao)
+    {
+        for (DaoSQL dao : listeDao)
+        {
+            dao.fermetureConnexion();
+        }
     }
 
     /**

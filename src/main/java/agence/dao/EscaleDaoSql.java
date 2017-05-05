@@ -16,7 +16,7 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     {
         // Liste des escales que l'on va retourner
         List<Escale> escales = new ArrayList<Escale>();
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
         VolDaoSql volDAO = new VolDaoSql();
         try
         {
@@ -59,7 +59,7 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     public Escale findById(Integer idEscale)
     {
         Escale escale = new Escale();
-        AeroportDaoSQL aeroport = new AeroportDaoSQL();
+        AeroportDaoSql aeroport = new AeroportDaoSql();
         VolDaoSql vol = new VolDaoSql();
 
         try
@@ -103,7 +103,7 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     {
         // Liste des escales que l'on va retourner
         List<Escale> escales = new ArrayList<Escale>();
-        AeroportDaoSQL aeroportDAO = new AeroportDaoSQL();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
         try
         {
             // connexion

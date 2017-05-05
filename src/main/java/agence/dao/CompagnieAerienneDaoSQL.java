@@ -8,7 +8,7 @@ import java.util.List;
 
 import agence.model.CompagnieAerienne;
 
-public class CompagnieAerienneDaoSQL extends DaoSQL
+public class CompagnieAerienneDaoSql extends DaoSQL
         implements CompagnieAerienneDao
 {
     @Override

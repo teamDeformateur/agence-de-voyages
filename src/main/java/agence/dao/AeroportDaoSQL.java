@@ -8,7 +8,7 @@ import java.util.List;
 
 import agence.model.Aeroport;
 
-public class AeroportDaoSQL extends DaoSQL implements AeroportDao
+public class AeroportDaoSql extends DaoSQL implements AeroportDao
 {
     public List<Aeroport> findAll()
     {
