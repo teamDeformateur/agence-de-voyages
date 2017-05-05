@@ -4,19 +4,25 @@
 package agence;
 
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoSql;
+import agence.dao.AeroportDao;
 import agence.dao.AeroportDaoSql;
-import agence.dao.ClientDaoSql;
+import agence.dao.ClientDao;
 import agence.dao.ClientMoralDaoSql;
 import agence.dao.ClientPhysiqueDaoSql;
 import agence.dao.CompagnieAerienneDao;
 import agence.dao.CompagnieAerienneDaoSql;
 import agence.dao.CompagnieAerienneVolDao;
 import agence.dao.CompagnieAerienneVolDaoSql;
+import agence.dao.Dao;
 import agence.dao.DaoSQL;
+import agence.dao.EscaleDao;
 import agence.dao.EscaleDaoSql;
 import agence.dao.LoginDao;
 import agence.dao.LoginDaoSql;
@@ -28,6 +34,7 @@ import agence.dao.VilleAeroportDao;
 import agence.dao.VilleAeroportDaoSql;
 import agence.dao.VilleDao;
 import agence.dao.VilleDaoSQL;
+import agence.dao.VolDao;
 import agence.dao.VolDaoSql;
 import agence.model.Adresse;
 import agence.model.Aeroport;
@@ -62,112 +69,176 @@ public class MainDB
      */
     public static void main(String[] args)
     {
-        // J'instancie le dao SQL des adresses
-        AdresseDao adresseDao = new AdresseDaoSql();
-        // J'appelle la méthode findAll pour récupérer toutes les adresses
-        // stockées en BDD
-        List<Adresse> listeAdresses = adresseDao.findAll();
-        Adresse adresse = adresseDao.findById(1);
-        afficherTestEtResultat("Liste des adresses", listeAdresses);
-        afficherTestEtResultat("Une seule adresse", adresse);
+        Connection connexion = seConnecter();
 
-        AeroportDaoSql aeroportDao = new AeroportDaoSql();
-        List<Aeroport> listeAeroports = aeroportDao.findAll();
-        Aeroport aeroport = aeroportDao.findById(1);
-        afficherTestEtResultat("Liste des aéroports", listeAeroports);
-        afficherTestEtResultat("Un seul aéroport", aeroport);
+        if (connexion != null)
+        {
 
-        ClientDaoSql clientDaoSql = new ClientMoralDaoSql();
-        List<Client> listeClientsMoraux = clientDaoSql.findAll();
-        Client clientMoral = clientDaoSql.findById(30);
-        afficherTestEtResultat("Liste des clients personnes morales",
-                listeClientsMoraux);
-        afficherTestEtResultat("Un client personne morale", clientMoral);
+            // J'instancie le dao SQL des adresses
+            AdresseDao adresseDao = new AdresseDaoSql(connexion);
+            // J'appelle la méthode findAll pour récupérer toutes les adresses
+            // stockées en BDD
+            List<Adresse> listeAdresses = adresseDao.findAll();
+            Adresse adresse = adresseDao.findById(1);
+            afficherTestEtResultat("Liste des adresses", listeAdresses);
+            afficherTestEtResultat("Une seule adresse", adresse);
 
-        clientDaoSql = new ClientPhysiqueDaoSql();
-        List<Client> listeClientsPhysiques = clientDaoSql.findAll();
-        afficherTestEtResultat("Liste des clients personne physique",
-                listeClientsPhysiques);
-        Client clientPhysique = clientDaoSql.findById(10);
-        afficherTestEtResultat("Un seul client personne physique",
-                clientPhysique);
-        // Je cherche une adresse en fonction d'un client
-        adresse = adresseDao.findByClient(clientPhysique);
-        System.out.println("Liaison client-adresse : " + clientPhysique);
+            AeroportDao aeroportDao = new AeroportDaoSql(connexion);
+            List<Aeroport> listeAeroports = aeroportDao.findAll();
+            Aeroport aeroport = aeroportDao.findById(1);
+            afficherTestEtResultat("Liste des aéroports", listeAeroports);
+            afficherTestEtResultat("Un seul aéroport", aeroport);
 
-        fermerConnexion(new DaoSQL[]
-        { (DaoSQL) adresseDao, clientDaoSql, aeroportDao });
+            ClientDao clientDao = new ClientMoralDaoSql(connexion);
+            List<Client> listeClientsMoraux = clientDao.findAll();
+            Client clientMoral = clientDao.findById(30);
+            afficherTestEtResultat("Liste des clients personnes morales",
+                    listeClientsMoraux);
+            afficherTestEtResultat("Un client personne morale", clientMoral);
 
-        CompagnieAerienneDao compagnieAerienneDao = new CompagnieAerienneDaoSql();
-        List<CompagnieAerienne> listeCompagniesAeriennes = compagnieAerienneDao
-                .findAll();
-        afficherTestEtResultat("Liste des compagnies aériennes",
-                listeCompagniesAeriennes);
-        CompagnieAerienne compagnieAerienne = compagnieAerienneDao.findById(2);
-        afficherTestEtResultat("Une seule compagnie aérienne",
-                compagnieAerienne);
+            clientDao = new ClientPhysiqueDaoSql(connexion);
+            List<Client> listeClientsPhysiques = clientDao.findAll();
+            afficherTestEtResultat("Liste des clients personne physique",
+                    listeClientsPhysiques);
+            Client clientPhysique = clientDao.findById(10);
+            afficherTestEtResultat("Un seul client personne physique",
+                    clientPhysique);
+            // Je cherche une adresse en fonction d'un client
+            adresse = adresseDao.findByClient(clientPhysique);
+            System.out.println("Liaison client-adresse : " + clientPhysique);
 
-        CompagnieAerienneVolDao compagnieAerienneVolDao = new CompagnieAerienneVolDaoSql();
-        List<CompagnieAerienneVol> listeCompagniesAeriennesVol = compagnieAerienneVolDao
-                .findAll();
-        afficherTestEtResultat("Liste des liens compagnie-vol",
-                listeCompagniesAeriennesVol);
-        CompagnieAerienneVol compagnieAerienneVol = compagnieAerienneVolDao
-                .findById(2);
-        afficherTestEtResultat("Un lien compagnie-vol", compagnieAerienneVol);
+            CompagnieAerienneDao compagnieAerienneDao = new CompagnieAerienneDaoSql(
+                    connexion);
+            List<CompagnieAerienne> listeCompagniesAeriennes = compagnieAerienneDao
+                    .findAll();
+            afficherTestEtResultat("Liste des compagnies aériennes",
+                    listeCompagniesAeriennes);
+            CompagnieAerienne compagnieAerienne = compagnieAerienneDao
+                    .findById(2);
+            afficherTestEtResultat("Une seule compagnie aérienne",
+                    compagnieAerienne);
 
-        EscaleDaoSql escaleDao = new EscaleDaoSql();
-        List<Escale> listeEscales = escaleDao.findAll();
-        afficherTestEtResultat("Liste des escales", listeEscales);
-        Escale escale = escaleDao.findById(30);
-        afficherTestEtResultat("Une seule escale", escale);
-        escaleDao.fermetureConnexion();
+            CompagnieAerienneVolDao compagnieAerienneVolDao = new CompagnieAerienneVolDaoSql(
+                    connexion);
+            List<CompagnieAerienneVol> listeCompagniesAeriennesVol = compagnieAerienneVolDao
+                    .findAll();
+            afficherTestEtResultat("Liste des liens compagnie-vol",
+                    listeCompagniesAeriennesVol);
+            CompagnieAerienneVol compagnieAerienneVol = compagnieAerienneVolDao
+                    .findById(2);
+            afficherTestEtResultat("Un lien compagnie-vol",
+                    compagnieAerienneVol);
 
-        LoginDao loginDaoSql = new LoginDaoSql();
-        List<Login> listeLogins = loginDaoSql.findAll();
-        afficherTestEtResultat("Liste des logins", listeLogins);
-        Login login = loginDaoSql.findById(2);
-        afficherTestEtResultat("Un seul login", login);
+            EscaleDao escaleDao = new EscaleDaoSql(connexion);
+            List<Escale> listeEscales = escaleDao.findAll();
+            afficherTestEtResultat("Liste des escales", listeEscales);
+            Escale escale = escaleDao.findById(30);
+            afficherTestEtResultat("Une seule escale", escale);
 
-        // J'instancie le dao SQL de l'objet métier à récupérer
-        PassagerDao passagerDao = new PassagerDaoSql();
-        // J'appelle la méthode findAll pour récupérer tous les BO de ce type de
-        // la BDD
-        List<Passager> listePassagers = passagerDao.findAll();
-        afficherTestEtResultat("Liste des passagers", listePassagers);
-        Passager passager = passagerDao.findById(1);
-        afficherTestEtResultat("Un seul passager", passager);
+            LoginDao loginDao = new LoginDaoSql(connexion);
+            List<Login> listeLogins = loginDao.findAll();
+            afficherTestEtResultat("Liste des logins", listeLogins);
+            Login login = loginDao.findById(2);
+            afficherTestEtResultat("Un seul login", login);
 
-        // J'instancie le dao SQL de l'objet métier à récupérer
-        ReservationDao reservationDao = new ReservationDaoSql();
-        // J'appelle la méthode findAll pour récupérer tous les BO de ce type de
-        // la BDD
-        List<Reservation> listeReservations = reservationDao.findAll();
-        afficherTestEtResultat("Liste des réservations", listeReservations);
-        Reservation reservation = reservationDao.findById(10);
-        afficherTestEtResultat("Une seule réservation", reservation);
-        listeReservations = reservationDao.findByPassager(passager);
+            // J'instancie le dao SQL de l'objet métier à récupérer
+            PassagerDao passagerDao = new PassagerDaoSql(connexion);
+            // J'appelle la méthode findAll pour récupérer tous les BO de ce
+            // type de la BDD
+            List<Passager> listePassagers = passagerDao.findAll();
+            afficherTestEtResultat("Liste des passagers", listePassagers);
+            Passager passager = passagerDao.findById(1);
+            afficherTestEtResultat("Un seul passager", passager);
 
-        VilleAeroportDao villeAeroportDao = new VilleAeroportDaoSql();
-        List<VilleAeroport> listeVilleAeroports = villeAeroportDao.findAll();
-        afficherTestEtResultat("Liste des liens ville-aéroport",
-                listeVilleAeroports);
-        VilleAeroport villeAeroport = villeAeroportDao.findById(3);
-        afficherTestEtResultat("Une seul lien ville-aéroport", villeAeroport);
+            // J'instancie le dao SQL de l'objet métier à récupérer
+            ReservationDao reservationDao = new ReservationDaoSql(connexion);
+            // J'appelle la méthode findAll pour récupérer tous les BO de ce
+            // type de la BDD
+            List<Reservation> listeReservations = reservationDao.findAll();
+            afficherTestEtResultat("Liste des réservations", listeReservations);
+            Reservation reservation = reservationDao.findById(10);
+            afficherTestEtResultat("Une seule réservation", reservation);
+            listeReservations = reservationDao.findByPassager(passager);
 
-        VilleDao villeDao = new VilleDaoSQL();
-        List<Ville> listeVilles = villeDao.findAll();
-        afficherTestEtResultat("Liste des villes", listeVilles);
-        Ville ville = villeDao.findById(2);
-        afficherTestEtResultat("Une seule ville", ville);
+            VilleAeroportDao villeAeroportDao = new VilleAeroportDaoSql(
+                    connexion);
+            List<VilleAeroport> listeVilleAeroports = villeAeroportDao
+                    .findAll();
+            afficherTestEtResultat("Liste des liens ville-aéroport",
+                    listeVilleAeroports);
+            VilleAeroport villeAeroport = villeAeroportDao.findById(3);
+            afficherTestEtResultat("Une seul lien ville-aéroport",
+                    villeAeroport);
 
-        VolDaoSql volDao = new VolDaoSql();
-        List<Vol> listeVols = volDao.findAll();
-        afficherTestEtResultat("Liste des vols", listeVols);
-        Vol vol = volDao.findById(1);
-        afficherTestEtResultat("Un seul vol", vol);
-        volDao.fermetureConnexion();
+            VilleDao villeDao = new VilleDaoSQL(connexion);
+            List<Ville> listeVilles = villeDao.findAll();
+            afficherTestEtResultat("Liste des villes", listeVilles);
+            Ville ville = villeDao.findById(2);
+            afficherTestEtResultat("Une seule ville", ville);
 
+            VolDao volDao = new VolDaoSql(connexion);
+            List<Vol> listeVols = volDao.findAll();
+            afficherTestEtResultat("Liste des vols", listeVols);
+            Vol vol = volDao.findById(1);
+            afficherTestEtResultat("Un seul vol", vol);
+
+            libererResultatsDaoSql(new Dao[]
+            { adresseDao, clientDao, aeroportDao, compagnieAerienneDao,
+                    compagnieAerienneVolDao, escaleDao, loginDao, passagerDao,
+                    reservationDao, villeAeroportDao, villeDao, volDao });
+
+            seDeconnecter(connexion);
+        }
+    }
+
+    /**
+     * Se déconnecte de la BDD
+     * 
+     * @param connexion
+     */
+    private static void seDeconnecter(Connection connexion)
+    {
+        try
+        {
+            connexion.close();
+        }
+        catch (SQLException e)
+        {
+            System.err.println(
+                    "Problème lors de la fermeture de la connexion à la BDD.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Se connecte à la BDD
+     * 
+     * @return Une connexion à la BDD
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    private static Connection seConnecter()
+    {
+        Connection connexion = null;
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            // 2. Créer la connexion à la base (on instancie l'objet connexion)
+            connexion = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/agence", "user", "password");
+        }
+        catch (ClassNotFoundException e)
+        {
+            System.err.println("Impossible de charger le pilote JDBC.");
+            System.err.println(e.toString());
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Erreur lors de la connexion à la BDD.");
+            System.err.println(e.toString());
+        }
+
+        return connexion;
     }
 
     /**
@@ -175,11 +246,11 @@ public class MainDB
      * 
      * @param listeDao
      */
-    private static void fermerConnexion(DaoSQL[] listeDao)
+    private static void libererResultatsDaoSql(Dao<?, ?>[] listeDao)
     {
-        for (DaoSQL dao : listeDao)
+        for (Dao<?, ?> dao : listeDao)
         {
-            dao.fermetureConnexion();
+            ((DaoSQL) dao).libererResultats();
         }
     }
 

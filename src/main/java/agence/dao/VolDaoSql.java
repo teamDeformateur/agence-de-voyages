@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,38 +10,45 @@ import agence.model.Vol;
 
 public class VolDaoSql extends DaoSQL implements VolDao
 {
+    private AeroportDaoSql aeroportDAO = new AeroportDaoSql(connexion);
+    private EscaleDao escaleDao = new EscaleDaoSql(connexion);
+
+    /**
+     * @param connexion
+     */
+    public VolDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
     @Override
     public List<Vol> findAll()
     {
         // Liste des vols que l'on va retourner
         List<Vol> vols = new ArrayList<Vol>();
-        // Création d'un objet aeroport pour faire un findbyid;
-        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
-        EscaleDao escaleDao = new EscaleDaoSql();
         // Connexion à la BDD
         try
         {
 
-            PreparedStatement ps = connexion
-                    .prepareStatement("SELECT * FROM vol");
+            preparedStatement = connexion.prepareStatement("SELECT * FROM vol");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Vol
-                Vol vol = new Vol(tuple.getInt("idVol"));
-                vol.setDateArrivee(tuple.getDate("dateArrivee"));
-                vol.setDateDepart(tuple.getDate("dateDepart"));
-                vol.setHeureArrivee(tuple.getTime("heureArrivee"));
-                vol.setHeureDepart(tuple.getTime("heureDepart"));
+                Vol vol = new Vol(resultSet.getInt("idVol"));
+                vol.setDateArrivee(resultSet.getDate("dateArrivee"));
+                vol.setDateDepart(resultSet.getDate("dateDepart"));
+                vol.setHeureArrivee(resultSet.getTime("heureArrivee"));
+                vol.setHeureDepart(resultSet.getTime("heureDepart"));
                 vol.setAeroportArrivee(aeroportDAO
-                        .findById(tuple.getInt("idAeroportArrivee")));
-                vol.setAeroportDepart(
-                        aeroportDAO.findById(tuple.getInt("idAeroportDepart")));
+                        .findById(resultSet.getInt("idAeroportArrivee")));
+                vol.setAeroportDepart(aeroportDAO
+                        .findById(resultSet.getInt("idAeroportDepart")));
                 /*
                  * Recherche des escales
                  */
@@ -55,9 +61,6 @@ public class VolDaoSql extends DaoSQL implements VolDao
                 // Ajout du nouvel objet vol créé à la liste des vols
                 vols.add(vol);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
-
-            // fermeture de la base aeroport
-            aeroportDAO.fermetureConnexion();
 
         }
         catch (SQLException e)
@@ -73,33 +76,29 @@ public class VolDaoSql extends DaoSQL implements VolDao
     {
         // Déclaration d'un objet vol
         Vol vol = null;
-        // Création d'un objet aeroport pour faire un findbyid;
-        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
 
         try
         {
 
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM vol where idVol=?");
             // Cherche l'idVol voulu dans la BDD
-            ps.setInt(1, idVol);
+            preparedStatement.setInt(1, idVol);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                vol = new Vol(tuple.getInt("idVol"));
-                vol.setDateArrivee(tuple.getDate("dateArrivee"));
-                vol.setDateDepart(tuple.getDate("dateDepart"));
-                vol.setHeureArrivee(tuple.getTime("heureArrivee"));
-                vol.setHeureDepart(tuple.getTime("heureDepart"));
+                vol = new Vol(resultSet.getInt("idVol"));
+                vol.setDateArrivee(resultSet.getDate("dateArrivee"));
+                vol.setDateDepart(resultSet.getDate("dateDepart"));
+                vol.setHeureArrivee(resultSet.getTime("heureArrivee"));
+                vol.setHeureDepart(resultSet.getTime("heureDepart"));
                 vol.setAeroportArrivee(aeroportDAO
-                        .findById(tuple.getInt("idAeroportArrivee")));
-                vol.setAeroportDepart(
-                        aeroportDAO.findById(tuple.getInt("idAeroportDepart")));
-                // fermeture de la base aeroport
-                aeroportDAO.fermetureConnexion();
+                        .findById(resultSet.getInt("idAeroportArrivee")));
+                vol.setAeroportDepart(aeroportDAO
+                        .findById(resultSet.getInt("idAeroportDepart")));
             }
 
         }

@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,14 @@ import agence.model.Login;
 
 public class LoginDaoSql extends DaoSQL implements LoginDao
 {
+
+    /**
+     * @param connexion
+     */
+    public LoginDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
 
     @Override
     public List<Login> findAll()
@@ -23,23 +30,23 @@ public class LoginDaoSql extends DaoSQL implements LoginDao
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM login");
 
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Client
-                Login objLogin = new Login(tuple.getInt("id"));
+                Login objLogin = new Login(resultSet.getInt("id"));
 
-                objLogin.setLogin(tuple.getString("login"));
-                objLogin.setMotDePasse(tuple.getString("motDePasse"));
-                objLogin.setAdmin(tuple.getBoolean("admin"));
+                objLogin.setLogin(resultSet.getString("login"));
+                objLogin.setMotDePasse(resultSet.getString("motDePasse"));
+                objLogin.setAdmin(resultSet.getBoolean("admin"));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
                 ListLogin.add(objLogin);
@@ -63,20 +70,20 @@ public class LoginDaoSql extends DaoSQL implements LoginDao
         try
         {
             // Connexion à la BDD
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM login WHERE id=?");
             // Cherche l'idVill voulu dans la BDD
-            ps.setInt(1, id);
+            preparedStatement.setInt(1, id);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                objLogin = new Login(tuple.getInt("id"));
-                objLogin.setLogin(tuple.getString("login"));
-                objLogin.setMotDePasse(tuple.getString("motDePasse"));
-                objLogin.setAdmin(tuple.getBoolean("admin"));
+                objLogin = new Login(resultSet.getInt("id"));
+                objLogin.setLogin(resultSet.getString("login"));
+                objLogin.setMotDePasse(resultSet.getString("motDePasse"));
+                objLogin.setAdmin(resultSet.getBoolean("admin"));
             }
 
         }

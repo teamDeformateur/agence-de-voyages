@@ -1,5 +1,6 @@
 package agence.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,37 +12,48 @@ import agence.model.Vol;
 
 public class EscaleDaoSql extends DaoSQL implements EscaleDao
 {
+    /**
+     * @param connexion
+     */
+    public EscaleDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
+    private AeroportDaoSql aeroportDAO = new AeroportDaoSql(connexion);
+
     @Override
     public List<Escale> findAll()
     {
         // Liste des escales que l'on va retourner
         List<Escale> escales = new ArrayList<Escale>();
-        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
-        VolDaoSql volDAO = new VolDaoSql();
+
+        VolDaoSql volDAO = new VolDaoSql(connexion);
+
         try
         {
             // connexion
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM escale");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet escale
-                Escale escale = new Escale(tuple.getInt("idEscale"));
-                escale.setDateArrivee(tuple.getDate("dateArrivee"));
-                escale.setDateDepart(tuple.getDate("dateDepart"));
-                escale.setHeureArrivee(tuple.getTime("heureArrivee"));
-                escale.setHeureDepart(tuple.getTime("heureDepart"));
+                Escale escale = new Escale(resultSet.getInt("idEscale"));
+                escale.setDateArrivee(resultSet.getDate("dateArrivee"));
+                escale.setDateDepart(resultSet.getDate("dateDepart"));
+                escale.setHeureArrivee(resultSet.getTime("heureArrivee"));
+                escale.setHeureDepart(resultSet.getTime("heureDepart"));
                 // ajout des id Adress
-                escale.setVol(volDAO.findById(tuple.getInt("idVol")));
+                escale.setVol(volDAO.findById(resultSet.getInt("idVol")));
                 // ajout des aeroports
                 escale.setAeoroport(
-                        aeroportDAO.findById(tuple.getInt("idAeroport")));
+                        aeroportDAO.findById(resultSet.getInt("idAeroport")));
                 // Ajout du nouvel objet Aeroport créé à la liste des aéroports
                 escales.add(escale);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
@@ -59,30 +71,28 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     public Escale findById(Integer idEscale)
     {
         Escale escale = new Escale();
-        AeroportDaoSql aeroport = new AeroportDaoSql();
-        VolDaoSql vol = new VolDaoSql();
-
+        VolDaoSql volDAO = new VolDaoSql(connexion);
         try
         {
 
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM escale where idEscale=?");
             // Cherche l'idVol voulu dans la BDD
-            ps.setInt(1, idEscale);
+            preparedStatement.setInt(1, idEscale);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                escale.setIdEscale(tuple.getInt("idEscale"));
-                escale.setDateArrivee(tuple.getDate("dateArrivee"));
-                escale.setDateDepart(tuple.getDate("dateDepart"));
-                escale.setHeureArrivee(tuple.getTime("heureArrivee"));
-                escale.setHeureDepart(tuple.getTime("heureDepart"));
-                escale.setVol(vol.findById(tuple.getInt("idVol")));
+                escale.setIdEscale(resultSet.getInt("idEscale"));
+                escale.setDateArrivee(resultSet.getDate("dateArrivee"));
+                escale.setDateDepart(resultSet.getDate("dateDepart"));
+                escale.setHeureArrivee(resultSet.getTime("heureArrivee"));
+                escale.setHeureDepart(resultSet.getTime("heureDepart"));
+                escale.setVol(volDAO.findById(resultSet.getInt("idVol")));
                 escale.setAeoroport(
-                        aeroport.findById(tuple.getInt("idAeroport")));
+                        aeroportDAO.findById(resultSet.getInt("idAeroport")));
             }
 
         }
@@ -103,7 +113,7 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     {
         // Liste des escales que l'on va retourner
         List<Escale> escales = new ArrayList<Escale>();
-        AeroportDaoSql aeroportDAO = new AeroportDaoSql();
+        AeroportDaoSql aeroportDAO = new AeroportDaoSql(connexion);
         try
         {
             // connexion

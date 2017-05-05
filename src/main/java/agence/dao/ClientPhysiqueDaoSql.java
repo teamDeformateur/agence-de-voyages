@@ -3,8 +3,7 @@
  */
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +16,22 @@ import agence.model.ClientPhysique;
  */
 public class ClientPhysiqueDaoSql extends ClientDaoSql
 {
+    /**
+     * @param connexion
+     */
+    public ClientPhysiqueDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
+    private AdresseDaoSql adresseDAO = new AdresseDaoSql(connexion);
+    private LoginDaoSql loginDAO = new LoginDaoSql(connexion);
+    private ReservationDao reservationDao = new ReservationDaoSql(connexion);
+
     public List<Client> findAll()
     {
         // Liste des clients que l'on va retourner
         List<Client> listeClients = new ArrayList<Client>();
-        AdresseDaoSql adresseDAO = new AdresseDaoSql();
-        LoginDaoSql loginDAO = new LoginDaoSql();
 
         try
         {
@@ -30,31 +39,35 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion.prepareStatement(
+            preparedStatement = connexion.prepareStatement(
                     "SELECT * FROM client WHERE siret IS NULL");
 
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Client
-                Client objClient = new ClientPhysique(tuple.getInt("idClient"));
+                Client objClient = new ClientPhysique(
+                        resultSet.getInt("idClient"));
 
-                objClient.setNom(tuple.getString("nom"));
+                objClient.setNom(resultSet.getString("nom"));
                 ((ClientPhysique) objClient)
-                        .setPrenom(tuple.getString("prenom"));
-                objClient.setNumeroTel(tuple.getString("numTel"));
-                objClient.setNumeroFax(tuple.getString("numFax"));
-                objClient.setEmail(tuple.getString("eMail"));
+                        .setPrenom(resultSet.getString("prenom"));
+                objClient.setNumeroTel(resultSet.getString("numTel"));
+                objClient.setNumeroFax(resultSet.getString("numFax"));
+                objClient.setEmail(resultSet.getString("eMail"));
 
+                objClient.setAdresse(
+                        adresseDAO.findById(resultSet.getInt("idAdd")));
                 objClient
-                        .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
-                objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
-
+                        .setLogin(loginDAO.findById(resultSet.getInt("idLog")));
+                // ajout des réservations
+                objClient.setListeReservations(
+                        reservationDao.findByClient(objClient));
                 // Ajout du nouvel objet Client créé à la liste des clients
                 listeClients.add(objClient);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
@@ -73,33 +86,35 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
     {
         // Déclaration d'un objet Client
         Client objClient = null;
-        AdresseDaoSql adresseDAO = new AdresseDaoSql();
-        LoginDaoSql loginDAO = new LoginDaoSql();
 
         try
         {
             // Connexion à la BDD
-            PreparedStatement ps = connexion.prepareStatement(
+            preparedStatement = connexion.prepareStatement(
                     "SELECT * FROM client WHERE idClient=? AND siret IS NULL");
             // Cherche l'idVill voulu dans la BDD
-            ps.setInt(1, idCli);
+            preparedStatement.setInt(1, idCli);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                objClient = new ClientPhysique(tuple.getInt("idClient"));
-                objClient.setNom(tuple.getString("nom"));
+                objClient = new ClientPhysique(resultSet.getInt("idClient"));
+                objClient.setNom(resultSet.getString("nom"));
                 ((ClientPhysique) objClient)
-                        .setPrenom(tuple.getString("prenom"));
-                objClient.setNumeroTel(tuple.getString("numTel"));
-                objClient.setNumeroFax(tuple.getString("numFax"));
-                objClient.setEmail(tuple.getString("eMail"));
+                        .setPrenom(resultSet.getString("prenom"));
+                objClient.setNumeroTel(resultSet.getString("numTel"));
+                objClient.setNumeroFax(resultSet.getString("numFax"));
+                objClient.setEmail(resultSet.getString("eMail"));
 
+                objClient.setAdresse(
+                        adresseDAO.findById(resultSet.getInt("idAdd")));
                 objClient
-                        .setAdresse(adresseDAO.findById(tuple.getInt("idAdd")));
-                objClient.setLogin(loginDAO.findById(tuple.getInt("idLog")));
+                        .setLogin(loginDAO.findById(resultSet.getInt("idLog")));
+                // ajout des réservations
+                objClient.setListeReservations(
+                        reservationDao.findByClient(objClient));
             }
 
         }

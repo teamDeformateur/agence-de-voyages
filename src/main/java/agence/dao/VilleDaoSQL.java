@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,14 @@ import agence.model.Ville;
 
 public class VilleDaoSQL extends DaoSQL implements VilleDao
 {
+    /**
+     * @param connexion
+     */
+    public VilleDaoSQL(Connection connexion)
+    {
+        super(connexion);
+    }
+
     @Override
     public List<Ville> findAll()
     {
@@ -21,19 +28,19 @@ public class VilleDaoSQL extends DaoSQL implements VilleDao
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM ville");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Ville
-                Ville ville = new Ville(tuple.getInt("id"),
-                        tuple.getString("nom"));
+                Ville ville = new Ville(resultSet.getInt("id"),
+                        resultSet.getString("nom"));
                 // Ajout du nouvel objet Ville créé à la liste des villes
                 villes.add(ville);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
@@ -55,17 +62,18 @@ public class VilleDaoSQL extends DaoSQL implements VilleDao
         try
         {
             // Connexion à la BDD
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM ville where id=?");
             // Cherche l'idVill voulu dans la BDD
-            ps.setInt(1, id);
+            preparedStatement.setInt(1, id);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                ville = new Ville(tuple.getInt("id"), tuple.getString("nom"));
+                ville = new Ville(resultSet.getInt("id"),
+                        resultSet.getString("nom"));
             }
 
         }

@@ -3,9 +3,8 @@
  */
 package agence.dao;
 
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,15 @@ import agence.model.Passager;
  */
 public class PassagerDaoSql extends DaoSQL implements PassagerDao
 {
-    AdresseDao adresseDao = new AdresseDaoSql();
+    private AdresseDao adresseDao = new AdresseDaoSql(connexion);
+
+    /**
+     * @param connexion
+     */
+    public PassagerDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
 
     /*
      * (non-Javadoc)
@@ -32,13 +39,12 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
             /*
              * Etape 2 : Création du statement
              */
-            Statement statement = connexion.createStatement();
+            statement = connexion.createStatement();
 
             /*
              * Etape 3 : Exécution de la requête SQL
              */
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM passager");
+            resultSet = statement.executeQuery("SELECT * FROM passager");
 
             /*
              * Etape 4 : Parcours des résultats
@@ -83,12 +89,12 @@ public class PassagerDaoSql extends DaoSQL implements PassagerDao
             /*
              * Etape 2 : Création du statement
              */
-            Statement statement = connexion.createStatement();
+            statement = connexion.createStatement();
 
             /*
              * Etape 3 : Exécution de la requête SQL
              */
-            ResultSet resultSet = statement.executeQuery(
+            resultSet = statement.executeQuery(
                     "SELECT * FROM passager WHERE idPassager = " + id);
 
             /*

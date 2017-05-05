@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,14 @@ import agence.model.Aeroport;
 
 public class AeroportDaoSql extends DaoSQL implements AeroportDao
 {
+    /**
+     * @param connexion
+     */
+    public AeroportDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
     public List<Aeroport> findAll()
     {
         // Liste des aéroports que l'on va retourner
@@ -20,19 +27,19 @@ public class AeroportDaoSql extends DaoSQL implements AeroportDao
              * Connexion à la BDD
              */
 
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM aeroport");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Aeroport
-                Aeroport aeroport = new Aeroport(tuple.getInt("idAero"),
-                        tuple.getString("nom"));
+                Aeroport aeroport = new Aeroport(resultSet.getInt("idAero"),
+                        resultSet.getString("nom"));
                 // Ajout du nouvel objet Aeroport créé à la liste des aéroports
                 aeroports.add(aeroport);
             } // fin de la boucle de parcoutuple de l'ensemble des résultats
@@ -54,18 +61,18 @@ public class AeroportDaoSql extends DaoSQL implements AeroportDao
         try
         {
 
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM aeroport where idAero=?");
             // Cherche l'idAero voulu dans la BDD
-            ps.setInt(1, idAero);
+            preparedStatement.setInt(1, idAero);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                aeroport = new Aeroport(tuple.getInt("idAero"),
-                        tuple.getString("nom"));
+                aeroport = new Aeroport(resultSet.getInt("idAero"),
+                        resultSet.getString("nom"));
             }
 
         }

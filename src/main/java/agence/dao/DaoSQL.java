@@ -4,56 +4,53 @@
 package agence.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author Seme
  */
 public abstract class DaoSQL
 {
-    protected Connection connexion;
+    protected Connection connexion = null;
+    protected ResultSet resultSet = null;
+    protected Statement statement = null;
+    protected PreparedStatement preparedStatement = null;
 
     /**
      * Constructeur par défaut qui charge le driver et instancie la connexion
      */
-    public DaoSQL()
+    public DaoSQL(Connection connexion)
     {
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // 2. Créer la connexion à la base (on instancie l'objet connexion)
-        try
-        {
-            connexion = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/agence", "user", "password");
-        }
-        catch (SQLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        this.connexion = connexion;
     }
 
     /**
-     * Ferme la connexion à la BDD
+     * Libère les objets de la BDD
      */
-    public void fermetureConnexion()
+    public void libererResultats()
     {
         try
         {
-            connexion.close();
+            if (resultSet != null)
+            {
+                resultSet.close();
+            }
+            if (preparedStatement != null)
+            {
+                preparedStatement.close();
+            }
+            if (statement != null)
+            {
+                statement.close();
+            }
         }
         catch (SQLException e)
         {
-            e.printStackTrace();
+            System.err.println(
+                    "Problème lors de la libération des résultats de la BDD.");
         }
     }
-
 }

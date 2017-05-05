@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,36 +10,48 @@ import agence.model.CompagnieAerienneVol;
 public class CompagnieAerienneVolDaoSql extends DaoSQL
         implements CompagnieAerienneVolDao
 {
+    private VolDaoSql volDAO = new VolDaoSql(connexion);
+    private CompagnieAerienneDaoSql compagnieDAO = new CompagnieAerienneDaoSql(
+            connexion);
+
+    /**
+     * @param connexion
+     */
+    public CompagnieAerienneVolDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
     @Override
     public List<CompagnieAerienneVol> findAll()
     {
         // Liste des CompagnieAerienneVol que l'on va retourner
         List<CompagnieAerienneVol> compagnieaeriennevols = new ArrayList<CompagnieAerienneVol>();
-        VolDaoSql volDAO = new VolDaoSql();
-        CompagnieAerienneDaoSql compagnieDAO = new CompagnieAerienneDaoSql();
+
         // Connexion à la BDD
         try
         {
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM compagnie_aerienne_vol");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcours de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeurs des colonnes du tuple qui correspondent aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Aeroport
                 CompagnieAerienneVol compagnieaeriennevol = new CompagnieAerienneVol(
-                        tuple.getString("numero"), tuple.getBoolean("ouvert"));
-                compagnieaeriennevol.setId(tuple.getInt("id"));
+                        resultSet.getString("numero"),
+                        resultSet.getBoolean("ouvert"));
+                compagnieaeriennevol.setId(resultSet.getInt("id"));
                 compagnieaeriennevol.setCompagnieAerienne(
-                        compagnieDAO.findById(tuple.getInt("idCompagnie")));
+                        compagnieDAO.findById(resultSet.getInt("idCompagnie")));
                 compagnieaeriennevol
-                        .setVol(volDAO.findById(tuple.getInt("idVol")));
+                        .setVol(volDAO.findById(resultSet.getInt("idVol")));
                 // Ajout du nouvel objet Aeroport créé à la liste des élèves
                 compagnieaeriennevols.add(compagnieaeriennevol);
             } // fin de la boucle de parcours de l'ensemble des résultats
@@ -56,28 +67,27 @@ public class CompagnieAerienneVolDaoSql extends DaoSQL
     public CompagnieAerienneVol findById(Integer id)
     {
         CompagnieAerienneVol compagnieAerienneVol = null;
-        VolDaoSql volDAO = new VolDaoSql();
-        CompagnieAerienneDaoSql compagnieDAO = new CompagnieAerienneDaoSql();
         try
         {
 
-            PreparedStatement ps = connexion.prepareStatement(
+            preparedStatement = connexion.prepareStatement(
                     "SELECT * FROM compagnie_aerienne_vol where id=?");
             // Cherche l'idComp recherché dans la BDD
-            ps.setInt(1, id);
+            preparedStatement.setInt(1, id);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
                 compagnieAerienneVol = new CompagnieAerienneVol(
-                        tuple.getString("numero"), tuple.getBoolean("ouvert"));
-                compagnieAerienneVol.setId(tuple.getInt("id"));
+                        resultSet.getString("numero"),
+                        resultSet.getBoolean("ouvert"));
+                compagnieAerienneVol.setId(resultSet.getInt("id"));
                 compagnieAerienneVol
-                        .setVol(volDAO.findById(tuple.getInt("idVol")));
+                        .setVol(volDAO.findById(resultSet.getInt("idVol")));
                 compagnieAerienneVol.setCompagnieAerienne(
-                        compagnieDAO.findById(tuple.getInt("idCompagnie")));
+                        compagnieDAO.findById(resultSet.getInt("idCompagnie")));
             }
 
         }

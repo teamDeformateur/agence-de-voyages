@@ -1,7 +1,6 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,14 @@ import agence.model.CompagnieAerienne;
 public class CompagnieAerienneDaoSql extends DaoSQL
         implements CompagnieAerienneDao
 {
+    /**
+     * @param connexion
+     */
+    public CompagnieAerienneDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
     @Override
     public List<CompagnieAerienne> findAll()
     {
@@ -22,19 +29,19 @@ public class CompagnieAerienneDaoSql extends DaoSQL
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM compagnie_aerienne");
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet compagnieAerienne
                 CompagnieAerienne compagnieAerienne = new CompagnieAerienne(
-                        tuple.getInt("id"), tuple.getString("nom"));
+                        resultSet.getInt("id"), resultSet.getString("nom"));
                 // Ajout du nouvel objet compagnieAerienne créé à la liste des
                 // compagniesAeriennes
                 compagniesAeriennes.add(compagnieAerienne);
@@ -56,18 +63,18 @@ public class CompagnieAerienneDaoSql extends DaoSQL
 
         try
         {
-            PreparedStatement ps = connexion.prepareStatement(
+            preparedStatement = connexion.prepareStatement(
                     "SELECT * FROM compagnie_aerienne where id=?");
             // Cherche l'idComp recherché dans la BDD
-            ps.setInt(1, id);
+            preparedStatement.setInt(1, id);
 
             // Récupération des résultats de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
-            if (tuple.next())
+            if (resultSet.next())
             {
-                compagnieAerienne = new CompagnieAerienne(tuple.getInt("id"),
-                        tuple.getString("nom"));
+                compagnieAerienne = new CompagnieAerienne(
+                        resultSet.getInt("id"), resultSet.getString("nom"));
             }
 
         }

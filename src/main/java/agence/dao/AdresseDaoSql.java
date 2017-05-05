@@ -1,9 +1,7 @@
 package agence.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,14 @@ import agence.model.Client;
 
 public class AdresseDaoSql extends DaoSQL implements AdresseDao
 {
+
+    /**
+     * @param connexion
+     */
+    public AdresseDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
 
     @Override
     public List<Adresse> findAll()
@@ -25,24 +31,24 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
             /*
              * Connexion à la BDD
              */
-            PreparedStatement ps = connexion
+            preparedStatement = connexion
                     .prepareStatement("SELECT * FROM adresse");
 
             // 4. Execution de la requête
-            ResultSet tuple = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             // 5. Parcoutuple de l'ensemble des résultats (ResultSet) pour
             // récupérer les valeutuple des colonnes du tuple qui correspondent
             // aux
             // valeur des attributs de l'objet
-            while (tuple.next())
+            while (resultSet.next())
             {
                 // Creation d'un objet Client
-                Adresse objAdresse = new Adresse(tuple.getInt("idAdd"));
+                Adresse objAdresse = new Adresse(resultSet.getInt("idAdd"));
 
-                objAdresse.setAdresse(tuple.getString("adresse"));
-                objAdresse.setCodePostal(tuple.getString("codePostal"));
-                objAdresse.setVille(tuple.getString("ville"));
-                objAdresse.setPays(tuple.getString("pays"));
+                objAdresse.setAdresse(resultSet.getString("adresse"));
+                objAdresse.setCodePostal(resultSet.getString("codePostal"));
+                objAdresse.setVille(resultSet.getString("ville"));
+                objAdresse.setPays(resultSet.getString("pays"));
 
                 // Ajout du nouvel objet Client créé à la liste des clients
                 listeAdresses.add(objAdresse);
@@ -67,12 +73,12 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
             /*
              * Etape 2 : Création du statement
              */
-            Statement statement = connexion.createStatement();
+            statement = connexion.createStatement();
 
             /*
              * Etape 3 : Exécution de la requête SQL
              */
-            ResultSet resultSet = statement.executeQuery(
+            resultSet = statement.executeQuery(
                     "SELECT * FROM adresse WHERE idAdd = " + idAdd);
 
             /*
@@ -115,15 +121,14 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
             /*
              * Etape 2 : Création du statement
              */
-            Statement statement = connexion.createStatement();
+            statement = connexion.createStatement();
 
             /*
              * Etape 3 : Exécution de la requête SQL
              */
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT a.* " + "FROM adresse a "
-                            + "INNER JOIN client c ON a.idAdd = c.idAdd "
-                            + "WHERE idClient = " + client.getIdCli());
+            resultSet = statement.executeQuery("SELECT a.* " + "FROM adresse a "
+                    + "INNER JOIN client c ON a.idAdd = c.idAdd "
+                    + "WHERE idClient = " + client.getIdCli());
 
             /*
              * Etape 4 : Parcours des résultats
