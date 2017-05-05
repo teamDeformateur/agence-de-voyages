@@ -10,11 +10,16 @@ import java.util.Scanner;
 import agence.dao.AdresseDao;
 import agence.dao.AeroportDao;
 import agence.dao.ClientDao;
+import agence.dao.ClientMoralDaoSql;
+import agence.dao.ClientPhysiqueDaoSql;
 import agence.dao.CompagnieAerienneDao;
+import agence.dao.CompagnieAerienneDaoSql;
 import agence.dao.CompagnieAerienneVolDao;
 import agence.dao.EscaleDao;
 import agence.dao.LoginDao;
 import agence.dao.PassagerDao;
+import agence.dao.ReservationDao;
+import agence.dao.ReservationDaoSql;
 import agence.dao.VilleAeroportDao;
 import agence.dao.VilleDao;
 import agence.dao.VolDao;
@@ -33,7 +38,7 @@ public class MainCRUD
      * Vue Console
      */
     public static ConsoleView console = new ConsoleView();
-    
+
     /**
      * Connexion à la BDD
      */
@@ -50,6 +55,7 @@ public class MainCRUD
         CompagnieAerienneDao compagnieAerienneDao;
         CompagnieAerienneVolDao compagnieAerienneVolDao;
         EscaleDao escaleDao;
+        ReservationDao reservationDao;
         LoginDao loginDao;
         PassagerDao passagerDao;
         VilleAeroportDao villeAeroportDao;
@@ -83,6 +89,36 @@ public class MainCRUD
                 case 13:
                     break;
                 case 2:
+                    boolean annuler = false;
+                    // boucle de saisie
+                    do
+                    {
+                        console.displayMenuClient();
+                        // Entrée
+                        // in = new Scanner(System.in);
+                        int choixClient = in.nextInt();
+                        switch (choixClient)
+                        {
+                            case 1:
+                                clientDao = new ClientMoralDaoSql(connexion);
+                                listeBOs = clientDao.findAll();
+                                console.displayClientsMoraux(listeBOs);
+                                annuler = true;
+                                break;
+                            case 2:
+                                clientDao = new ClientPhysiqueDaoSql(connexion);
+                                listeBOs = clientDao.findAll();
+                                console.displayClientsPhysiques(listeBOs);
+                                annuler = true;
+                                break;
+                            case 0:
+                                System.out.println("Annulation...");
+                                annuler = true;
+                                break;
+                        }
+                        in.reset();
+                    }
+                    while (!annuler);
                     break;
                 case 21:
                     break;
@@ -91,6 +127,9 @@ public class MainCRUD
                 case 23:
                     break;
                 case 3:
+                    reservationDao = new ReservationDaoSql(connexion);
+                    listeBOs = reservationDao.findAll();
+                    console.displayVols(listeBOs);
                     break;
                 case 31:
                     break;
@@ -99,6 +138,10 @@ public class MainCRUD
                 case 33:
                     break;
                 case 4:
+                    compagnieAerienneDao = new CompagnieAerienneDaoSql(
+                            connexion);
+                    listeBOs = compagnieAerienneDao.findAll();
+                    console.displayCompagnies(listeBOs);
                     break;
                 case 41:
                     break;
@@ -112,7 +155,6 @@ public class MainCRUD
                     break;
             }
             in.reset();
-
         }
         while (!quitter);
         in.close();

@@ -27,8 +27,9 @@ public class ConsoleView
      */
     public void displayMenu()
     {
+        console.println();
         String fmtEntete = "|   %1$-13s|     %2$-13s|      %3$-12s|    %4$-14s|%n";
-        String fmt = "|%1$-16s| %2$-17s| %3$-17s| %4$-17s|%n";
+        String fmt = "| %1$-15s| %2$-17s| %3$-17s| %4$-17s|%n";
         String separateur = "+-------------------------------------------------------------------------+\n";
         console.printf("%s", separateur);
         console.printf(fmtEntete, "Afficher", "Modifier", "Créer", "Supprimer");
@@ -41,7 +42,21 @@ public class ConsoleView
         console.printf(fmt, "4. Compagnie", "41. Compagnie", "42. Compagnie",
                 "43. Compagnie");
         console.printf("%s", separateur);
-        console.printf("%s", "Pour quitter, option 0\n\n");
+        console.printf("%s", "Pour quitter, option 0\n");
+        console.printf("%s", "Veuillez choisir une option : ");
+    }
+
+    /**
+     * Affiche le menu client de l'application
+     */
+    public void displayMenuClient()
+    {
+        String fmtEntete = "|     %1$-30s|       %2$-30s|%n";
+        String separateur = "+-------------------------------------------------------------------------+\n";
+        console.printf("%s", separateur);
+        console.printf(fmtEntete, "1. Personne morale", "2. Personne physique");
+        console.printf("%s", separateur);
+        console.printf("%s", "Pour annuler, option 0\n\n");
         console.printf("%s", "Veuillez choisir une option : ");
     }
 
@@ -137,11 +152,55 @@ public class ConsoleView
     }
 
     /**
+     * @return Chaîne lue en console
+     */
+    public static String lireConsole()
+    {
+        byte[] saisie = new byte[255];
+        String saisieStr = null;
+
+        try
+        {
+            int nbLus = System.in.read(saisie);
+            saisieStr = new String(saisie, 0, nbLus - 2);
+        }
+        catch (IOException e1)
+        {
+            e1.printStackTrace();
+        }
+        return saisieStr;
+    }
+
+    /**
      * @param listeBOs
      */
     public void displayVols(List<?> listeBOs)
     {
         afficherTestEtResultat("Liste des vols", listeBOs);
+    }
+
+    /**
+     * @param listeBOs
+     */
+    public void displayClientsMoraux(List<?> listeBOs)
+    {
+        afficherTestEtResultat("Liste des personnes morales", listeBOs);
+    }
+
+    /**
+     * @param listeBOs
+     */
+    public void displayClientsPhysiques(List<?> listeBOs)
+    {
+        afficherTestEtResultat("Liste des personnes physiques", listeBOs);
+    }
+
+    /**
+     * @param listeBOs
+     */
+    public void displayCompagnies(List<?> listeBOs)
+    {
+        afficherTestEtResultat("Liste des compagnies aériennes", listeBOs);
     }
 
 }
