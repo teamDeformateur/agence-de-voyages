@@ -22,6 +22,14 @@ public class ClientMoral extends Client
     }
 
     /**
+     * Constructeur par défaut
+     */
+    public ClientMoral()
+    {
+        super();
+    }
+
+    /**
      * @return the siret
      */
     public long getSiret()
@@ -48,7 +56,7 @@ public class ClientMoral extends Client
         String reponse = "La personne morale : " + this.getNom()
                 + ", de siret : " + this.siret + ", numéro de téléphone : "
                 + this.getNumeroTel() + ", numéro de fax : "
-                + this.getNumeroFax() + ",\n\t" + this.getAdresse().toString();
+                + this.getNumeroFax() + ",\n\t" + this.getAdresse();
         if (this.getListeReservations().size() > 0)
         {
             reponse += " \n\ta effectué la/les reservation(s) : \n";

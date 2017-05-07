@@ -2,6 +2,7 @@ package agence.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,17 +160,47 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
         return adresse;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#create(java.lang.Object)
      */
     @Override
     public void create(Adresse obj)
     {
-        // TODO Auto-generated method stub
-        
+        try
+        {
+            preparedStatement = connexion.prepareStatement(
+                    "INSERT INTO adresse(adresse, codePostal, ville, pays) VALUES (?,?,?,?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, obj.getAdresse());
+            preparedStatement.setString(2, obj.getCodePostal());
+            preparedStatement.setString(3, obj.getVille());
+            preparedStatement.setString(4, obj.getPays());
+
+            preparedStatement.executeUpdate();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next())
+            {
+                // mise à jour de la clef de l'objet
+                obj.setIdAdd(resultSet.getInt(1));
+            }
+            else
+            {
+                throw new SQLException(
+                        "Echec de la création de l'adresse. Aucune adresse insérée.");
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#update(java.lang.Object)
      */
     @Override
@@ -179,14 +210,15 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#delete(java.lang.Object)
      */
     @Override
     public void delete(Adresse obj)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

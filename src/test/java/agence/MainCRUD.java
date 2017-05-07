@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import agence.dao.AdresseDao;
+import agence.dao.AdresseDaoSql;
 import agence.dao.AeroportDao;
 import agence.dao.ClientDao;
 import agence.dao.ClientMoralDaoSql;
@@ -24,6 +25,7 @@ import agence.dao.VilleAeroportDao;
 import agence.dao.VilleDao;
 import agence.dao.VolDao;
 import agence.dao.VolDaoSql;
+import agence.model.Adresse;
 import agence.model.Client;
 import agence.model.ClientMoral;
 import agence.model.ClientPhysique;
@@ -158,6 +160,25 @@ public class MainCRUD
                 }
                     break;
                 case 22:
+                    // Il faut créer l'adresse avant de créer le client
+                    Adresse nouvelleAdresse = interfaceCreerAdresse();
+                    adresseDao = new AdresseDaoSql(connexion);
+                    adresseDao.create(nouvelleAdresse);
+                    // L'utilisateur crée le client
+                    Client nouveauClient = interfaceCreerClient(nouvelleAdresse);
+                    // Si personne morale à insérer
+                    if (nouveauClient instanceof ClientMoral)
+                    {
+                        clientDao = new ClientMoralDaoSql(connexion);
+                        clientDao.create(nouveauClient);
+                    }
+                    // sinon, personne physique
+                    else
+                    {
+                        clientDao = new ClientPhysiqueDaoSql(connexion);
+                        clientDao.create(nouveauClient);
+                    }
+                    System.out.println("Client inséré.");
                     break;
                 case 23:
                     break;
@@ -274,6 +295,98 @@ public class MainCRUD
     }
 
     /**
+     * Gére l'interface entre l'utilisateur et le programme afin de créer un
+     * Client
+     * 
+     * @param adresse
+     *            L'adresse du client
+     * @return Le client créé par l'utilisateur
+     */
+    private static Client interfaceCreerClient(Adresse adresse)
+    {
+        // Le client a insérer
+        Client clientAInserer;
+        // init. des données
+        String nom = null;
+        String prenom = null;
+        Long siret = null;
+        String numTel = null;
+        String numFax = null;
+        String email = null;
+        // saisie du nom
+        nom = saisirDonnee("nom");
+        // saisie du prenom
+        prenom = saisirDonnee("prenom (laissez vide si personne morale)");
+        try
+        {
+            // saisie du siret
+            siret = Long.parseLong(
+                    saisirDonnee("SIRET (laissez vide si personne physique)"));
+        }
+        catch (NumberFormatException e)
+        {
+
+        }
+        // saisie du numTel
+        numTel = saisirDonnee("numéro de téléphone");
+        // saisie du numFax
+        numFax = saisirDonnee("numéro de fax");
+        // saisie de l'adresse email
+        email = saisirDonnee("courriel");
+        // si personne physique
+        if (prenom != null)
+        {
+            clientAInserer = new ClientPhysique();
+            ((ClientPhysique) clientAInserer).setPrenom(prenom);
+        }
+        else
+        {
+            clientAInserer = new ClientMoral();
+            ((ClientMoral) clientAInserer).setSiret(siret);
+        }
+        // maj des infos génériques du client
+        clientAInserer.setNom(nom);
+        clientAInserer.setNumeroTel(numTel);
+        clientAInserer.setNumeroFax(numFax);
+        clientAInserer.setEmail(email);
+        clientAInserer.setAdresse(adresse);
+        // je retourne le client à insérer
+        return clientAInserer;
+    }
+
+    /**
+     * Interface entre l'utilisateur et le programme pour créer une adresse
+     * 
+     * @return L'adresse créée par l'utilisateur
+     */
+    private static Adresse interfaceCreerAdresse()
+    {
+        // L'adresse à créer
+        Adresse adresseAInserer;
+        // init. des données
+        String adresse = null;
+        String codePostal = null;
+        String ville = null;
+        String pays = null;
+        // saisie de l'adresse
+        adresse = saisirDonnee("adresse (numéro et rue)");
+        // saisie du code postal
+        codePostal = saisirDonnee("code postal");
+        // saisie de la ville
+        ville = saisirDonnee("ville");
+        // saisie du pays
+        pays = saisirDonnee("pays");
+        adresseAInserer = new Adresse();
+        // maj des infos de l'adresse
+        adresseAInserer.setAdresse(adresse);
+        adresseAInserer.setCodePostal(codePostal);
+        adresseAInserer.setVille(ville);
+        adresseAInserer.setPays(pays);
+        // je retourne l'adresse à insérer
+        return adresseAInserer;
+    }
+
+    /**
      * @param nomDuChamp
      * @param champ
      * @return
@@ -289,6 +402,27 @@ public class MainCRUD
         else
         {
             return champ;
+        }
+    }
+
+    /**
+     * Demande une saisie d'une donnée à l'utilisateur
+     * 
+     * @param nomDuChamp
+     *            Donnée à renseigner
+     * @return La valeur de la donnée
+     */
+    private static String saisirDonnee(String nomDuChamp)
+    {
+        System.out.printf("Saisir %s : ", nomDuChamp);
+        String saisie = ConsoleView.lireConsole();
+        if (saisie.length() > 0)
+        {
+            return saisie;
+        }
+        else
+        {
+            return null;
         }
     }
 

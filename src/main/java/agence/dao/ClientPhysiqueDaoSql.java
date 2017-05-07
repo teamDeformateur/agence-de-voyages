@@ -24,8 +24,19 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
         super(connexion);
     }
 
+    /**
+     * DAO Adresse
+     */
     private AdresseDaoSql adresseDAO = new AdresseDaoSql(connexion);
+
+    /**
+     * DAO Login
+     */
     private LoginDaoSql loginDAO = new LoginDaoSql(connexion);
+
+    /**
+     * DAO Reservation
+     */
     private ReservationDao reservationDao = new ReservationDaoSql(connexion);
 
     public List<Client> findAll()
@@ -35,7 +46,6 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
 
         try
         {
-
             /*
              * Connexion à la BDD
              */
@@ -126,17 +136,34 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
         return objClient;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#create(java.lang.Object)
      */
     @Override
     public void create(Client obj)
     {
-        // TODO Auto-generated method stub
-        
+        try
+        {
+            preparedStatement = connexion.prepareStatement(
+                    "INSERT INTO client (nom, numTel, numFax, email, prenom, idAdd) VALUES(?,?,?,?,?,?)");
+            preparedStatement.setString(1, obj.getNom());
+            preparedStatement.setString(2, obj.getNumeroTel());
+            preparedStatement.setString(3, obj.getNumeroFax());
+            preparedStatement.setString(4, obj.getEmail());
+            preparedStatement.setString(5, ((ClientPhysique) obj).getPrenom());
+            preparedStatement.setInt(6, obj.getAdresse().getIdAdd());
+            // insertion dans la BDD
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#update(java.lang.Object)
      */
     @Override
@@ -146,14 +173,15 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see agence.dao.Dao#delete(java.lang.Object)
      */
     @Override
     public void delete(Client obj)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

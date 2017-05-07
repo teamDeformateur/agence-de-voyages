@@ -26,8 +26,19 @@ public class ClientMoralDaoSql extends ClientDaoSql
         super(connexion);
     }
 
+    /**
+     * DAO adresse
+     */
     private AdresseDaoSql adresseDAO = new AdresseDaoSql(connexion);
+
+    /**
+     * DAO Login
+     */
     private LoginDaoSql loginDAO = new LoginDaoSql(connexion);
+
+    /**
+     * DAO Reservation
+     */
     private ReservationDao reservationDao = new ReservationDaoSql(connexion);
 
     public List<Client> findAll()
@@ -134,8 +145,23 @@ public class ClientMoralDaoSql extends ClientDaoSql
     @Override
     public void create(Client obj)
     {
-        // TODO Auto-generated method stub
-
+        try
+        {
+            preparedStatement = connexion.prepareStatement(
+                    "INSERT INTO client (nom, numTel, numFax, email, siret, idAdd) VALUES(?,?,?,?,?,?)");
+            preparedStatement.setString(1, obj.getNom());
+            preparedStatement.setString(2, obj.getNumeroTel());
+            preparedStatement.setString(3, obj.getNumeroFax());
+            preparedStatement.setString(4, obj.getEmail());
+            preparedStatement.setLong(5, ((ClientMoral) obj).getSiret());
+            preparedStatement.setInt(6, obj.getAdresse().getIdAdd());
+            // insertion dans la BDD
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /*

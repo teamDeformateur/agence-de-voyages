@@ -22,6 +22,14 @@ public class ClientPhysique extends Client
     }
 
     /**
+     * Constructeur par défaut
+     */
+    public ClientPhysique()
+    {
+        super();
+    }
+
+    /**
      * @return the prenom
      */
     public String getPrenom()
@@ -48,7 +56,7 @@ public class ClientPhysique extends Client
         String reponse = "La personne physique : " + this.getNom() + " "
                 + this.prenom + ", numéro de téléphone : " + this.getNumeroTel()
                 + ", numéro de fax : " + this.getNumeroFax() + ",\n\t"
-                + this.getAdresse().toString();
+                + this.getAdresse();
         if (this.getListeReservations().size() > 0)
         {
             reponse += " \n\ta effectué la/les reservation(s) : \n";
