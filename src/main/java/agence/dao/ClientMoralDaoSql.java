@@ -176,7 +176,7 @@ public class ClientMoralDaoSql extends ClientDaoSql
         try
         {
             PreparedStatement ps = connexion.prepareStatement(
-                    "update client set nom=?,numTel=?,numFax=?,eMail=?,siret=? where idClient = ?");
+                    "UPDATE client SET nom=?,numTel=?,numFax=?,eMail=?,siret=? WHERE idClient = ?");
 
             ps.setLong(6, obj.getIdCli());
 

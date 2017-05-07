@@ -152,18 +152,20 @@ public class MainCRUD
                     do
                     {
                         console.displayMenuClient();
+                        // DAO Adresse
+                        adresseDao = new AdresseDaoSql(connexion);
                         // Entrée
                         int choixClient = in.nextInt();
                         switch (choixClient)
                         {
                             case 1:
                                 clientDao = new ClientMoralDaoSql(connexion);
-                                interfaceModifierClient(clientDao);
+                                interfaceModifierClient(clientDao, adresseDao);
                                 annuler = true;
                                 break;
                             case 2:
                                 clientDao = new ClientPhysiqueDaoSql(connexion);
-                                interfaceModifierClient(clientDao);
+                                interfaceModifierClient(clientDao, adresseDao);
                                 annuler = true;
                                 break;
                             case 0:
@@ -284,7 +286,8 @@ public class MainCRUD
      * Gère les interactions entre l'utilisateur et le programme afin du
      * supprimer un client
      * 
-     * @param clientDao DAO Client
+     * @param clientDao
+     *            DAO Client
      */
     private static void interfaceSupprimerClient(ClientDao clientDao)
     {
@@ -298,7 +301,8 @@ public class MainCRUD
         // suppression du client
         {
             clientDao.delete(clientASupprimer);
-            System.out.println("Client " + clientASupprimer.getNom() + " supprimé.");
+            System.out.println(
+                    "Client " + clientASupprimer.getNom() + " supprimé.");
         }
         else
         {
@@ -310,7 +314,18 @@ public class MainCRUD
     /**
      * @param clientDao
      */
-    private static void interfaceModifierClient(ClientDao clientDao)
+    /**
+     * Interface entre l'utilisateur et le programme pour mettre à jour un
+     * client.
+     * Il faudra mettre à jour son adresse après avoir mis à jour le client.
+     * 
+     * @param clientDao
+     *            DAO client
+     * @param adresseDao
+     *            DAO adresse
+     */
+    private static void interfaceModifierClient(ClientDao clientDao,
+            AdresseDao adresseDao)
     {
         Scanner in;
         System.out.println(
@@ -320,6 +335,11 @@ public class MainCRUD
         Client clientAModifier = clientDao.findById(Integer.parseInt(idCli));
         if (clientAModifier != null)
         {
+            /*
+             * **********************************************
+             * Partie modification des informations du client
+             * **********************************************
+             */
             String nom = clientAModifier.getNom();
             String prenom = null;
             Long siret = null;
@@ -376,6 +396,27 @@ public class MainCRUD
             // une fois qu'on a récupéré toutes les modifications,
             // on lance la fonction du DAO qui va mettre à jour
             clientDao.update(clientAModifier);
+
+            /*
+             * *************************************************
+             * Partie modification des informations de l'adresse
+             * *************************************************
+             */
+            Adresse adresseAModifier = clientAModifier.getAdresse();
+            // Init.
+            String adresse = adresseAModifier.getAdresse();
+            String codePostal = adresseAModifier.getCodePostal();
+            String ville = adresseAModifier.getVille();
+            String pays = adresseAModifier.getPays();
+            // Prise en compte des changements
+            adresseAModifier.setAdresse(saisirChangement("adresse", adresse));
+            adresseAModifier
+                    .setCodePostal(saisirChangement("code postal", codePostal));
+            adresseAModifier.setVille(saisirChangement("ville", ville));
+            adresseAModifier.setPays(saisirChangement("pays", pays));
+            // modification de l'adresse
+            adresseDao.update(adresseAModifier);
+
             System.out.println("Client modifié.");
             console.waitNext();
         }

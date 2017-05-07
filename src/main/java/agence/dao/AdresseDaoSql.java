@@ -1,6 +1,7 @@
 package agence.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -206,8 +207,33 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
     @Override
     public Adresse update(Adresse obj)
     {
-        // TODO Auto-generated method stub
-        return null;
+        try
+        {
+            PreparedStatement ps = connexion.prepareStatement(
+                    "UPDATE `adresse` SET `adresse`=?,`codePostal`=?,`ville`=?,`pays`=? WHERE `idAdd`=?");
+
+            ps.setInt(5, obj.getIdAdd());
+
+            ps.setString(1, obj.getAdresse());
+            ps.setString(2, obj.getCodePostal());
+            ps.setString(3, obj.getVille());
+            ps.setString(4, obj.getPays());
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows == 0)
+            {
+                throw new SQLException(
+                        "Echec de la mise à jour de l'adresse. Aucune ligne affectée.");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Echec lors de la mise à jour de l'adresse.");
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
     /*
