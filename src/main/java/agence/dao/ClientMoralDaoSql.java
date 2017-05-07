@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.attribute.standard.PresentationDirection;
-
 import agence.model.Client;
 import agence.model.ClientMoral;
 
@@ -175,21 +173,23 @@ public class ClientMoralDaoSql extends ClientDaoSql
     {
         try
         {
-            PreparedStatement ps = connexion.prepareStatement(
+            preparedStatement = connexion.prepareStatement(
                     "UPDATE client SET nom=?,numTel=?,numFax=?,eMail=?,siret=? WHERE idClient = ?");
 
-            ps.setLong(6, obj.getIdCli());
+            preparedStatement.setLong(6, obj.getIdCli());
 
-            ps.setString(1, obj.getNom());
-            ps.setString(2, obj.getNumeroTel());
-            ps.setString(3, obj.getNumeroFax());
-            ps.setString(4, obj.getEmail());
-            ps.setLong(5, ((ClientMoral) obj).getSiret());
+            preparedStatement.setString(1, obj.getNom());
+            preparedStatement.setString(2, obj.getNumeroTel());
+            preparedStatement.setString(3, obj.getNumeroFax());
+            preparedStatement.setString(4, obj.getEmail());
+            preparedStatement.setLong(5, ((ClientMoral) obj).getSiret());
 
-            ps.executeUpdate();
+            preparedStatement.executeUpdate();
         }
         catch (SQLException e)
         {
+            System.err.println(
+                    "Erreur lors de la mise à jour de la personne morale.");
             e.printStackTrace();
         }
 
@@ -212,8 +212,10 @@ public class ClientMoralDaoSql extends ClientDaoSql
             // suppression
             int affectedRows = preparedStatement.executeUpdate();
             // si aucune ligne affectée
-            if (affectedRows == 0) {
-                throw new SQLException("Echec de la suppression du client. Aucune ligne affectée.");
+            if (affectedRows == 0)
+            {
+                throw new SQLException(
+                        "Echec de la suppression du client. Aucune ligne affectée.");
             }
             // puis l'adresse
             adresseDAO.delete(obj.getAdresse());

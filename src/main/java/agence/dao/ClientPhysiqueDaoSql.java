@@ -169,8 +169,29 @@ public class ClientPhysiqueDaoSql extends ClientDaoSql
     @Override
     public Client update(Client obj)
     {
-        // TODO Auto-generated method stub
-        return null;
+        try
+        {
+            preparedStatement = connexion.prepareStatement(
+                    "UPDATE client SET nom=?,numTel=?,numFax=?,eMail=?,prenom=? WHERE idClient = ?");
+
+            preparedStatement.setLong(6, obj.getIdCli());
+
+            preparedStatement.setString(1, obj.getNom());
+            preparedStatement.setString(2, obj.getNumeroTel());
+            preparedStatement.setString(3, obj.getNumeroFax());
+            preparedStatement.setString(4, obj.getEmail());
+            preparedStatement.setString(5, ((ClientPhysique) obj).getPrenom());
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.err.println(
+                    "Erreur lors de la mise à jour de la personne physique.");
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
     /*

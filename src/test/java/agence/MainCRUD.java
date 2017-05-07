@@ -327,11 +327,9 @@ public class MainCRUD
     private static void interfaceModifierClient(ClientDao clientDao,
             AdresseDao adresseDao)
     {
-        Scanner in;
         System.out.println(
                 "Veuillez saisir l'identifiant du client que vous souhaitez modifier : ");
-        in = new Scanner(System.in);
-        String idCli = in.next();
+        String idCli = ConsoleView.lireConsole();
         Client clientAModifier = clientDao.findById(Integer.parseInt(idCli));
         if (clientAModifier != null)
         {
