@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.attribute.standard.PresentationDirection;
+
 import agence.model.Client;
 import agence.model.ClientMoral;
 
@@ -201,7 +203,26 @@ public class ClientMoralDaoSql extends ClientDaoSql
     @Override
     public void delete(Client obj)
     {
-        // TODO Auto-generated method stub
+        // il faut supprimer le client
+        try
+        {
+            preparedStatement = connexion
+                    .prepareStatement("DELETE FROM client WHERE idClient = ?");
+            preparedStatement.setInt(1, obj.getIdCli());
+            // suppression
+            int affectedRows = preparedStatement.executeUpdate();
+            // si aucune ligne affectée
+            if (affectedRows == 0) {
+                throw new SQLException("Echec de la suppression du client. Aucune ligne affectée.");
+            }
+            // puis l'adresse
+            adresseDAO.delete(obj.getAdresse());
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Erreur lors de la suppression d'un client.");
+            e.printStackTrace();
+        }
 
     }
 

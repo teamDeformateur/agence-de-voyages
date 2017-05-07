@@ -217,7 +217,18 @@ public class AdresseDaoSql extends DaoSQL implements AdresseDao
     @Override
     public void delete(Adresse obj)
     {
-        // TODO Auto-generated method stub
+        try
+        {
+            preparedStatement = connexion
+                    .prepareStatement("DELETE FROM adresse WHERE idAdd = ?");
+            preparedStatement.setInt(1, obj.getIdAdd());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Erreur lors de la suppression d'une adresse.");
+            e.printStackTrace();
+        }
 
     }
 

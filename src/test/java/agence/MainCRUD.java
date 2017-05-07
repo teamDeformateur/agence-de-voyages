@@ -83,18 +83,33 @@ public class MainCRUD
             switch (choix)
             {
                 case 1:
+                    /*
+                     * Afficher vols
+                     */
                     volDao = new VolDaoSql(connexion);
                     listeBOs = volDao.findAll();
                     console.displayVols(listeBOs);
                     break;
                 case 11:
+                    /*
+                     * Modifier vol
+                     */
                     break;
                 case 12:
+                    /*
+                     * Créer vol
+                     */
                     break;
                 case 13:
+                    /*
+                     * Supprimer vol
+                     */
                     break;
                 case 2:
                 {
+                    /*
+                     * Afficher clients
+                     */
                     boolean annuler = false;
                     // boucle de saisie
                     do
@@ -129,13 +144,15 @@ public class MainCRUD
                     break;
                 case 21:
                 {
+                    /*
+                     * Modifier client
+                     */
                     boolean annuler = false;
                     // boucle de saisie
                     do
                     {
                         console.displayMenuClient();
                         // Entrée
-                        // in = new Scanner(System.in);
                         int choixClient = in.nextInt();
                         switch (choixClient)
                         {
@@ -160,12 +177,16 @@ public class MainCRUD
                 }
                     break;
                 case 22:
+                    /*
+                     * Créer client
+                     */
                     // Il faut créer l'adresse avant de créer le client
                     Adresse nouvelleAdresse = interfaceCreerAdresse();
                     adresseDao = new AdresseDaoSql(connexion);
                     adresseDao.create(nouvelleAdresse);
                     // L'utilisateur crée le client
-                    Client nouveauClient = interfaceCreerClient(nouvelleAdresse);
+                    Client nouveauClient = interfaceCreerClient(
+                            nouvelleAdresse);
                     // Si personne morale à insérer
                     if (nouveauClient instanceof ClientMoral)
                     {
@@ -181,8 +202,42 @@ public class MainCRUD
                     System.out.println("Client inséré.");
                     break;
                 case 23:
+                    /*
+                     * Supprimer client
+                     */
+                    boolean annuler = false;
+                    // boucle de saisie
+                    do
+                    {
+                        console.displayMenuClient();
+                        // Entrée
+                        int choixClient = in.nextInt();
+                        switch (choixClient)
+                        {
+                            case 1:
+                                clientDao = new ClientMoralDaoSql(connexion);
+                                interfaceSupprimerClient(clientDao);
+                                annuler = true;
+                                break;
+                            case 2:
+                                clientDao = new ClientPhysiqueDaoSql(connexion);
+                                interfaceSupprimerClient(clientDao);
+                                annuler = true;
+                                break;
+                            case 0:
+                                System.out.println("Annulation...");
+                                annuler = true;
+                                break;
+                        }
+                        in.reset();
+                    }
+                    while (!annuler);
+
                     break;
                 case 3:
+                    /*
+                     * Afficher réservations
+                     */
                     reservationDao = new ReservationDaoSql(connexion);
                     listeBOs = reservationDao.findAll();
                     console.displayVols(listeBOs);
@@ -194,6 +249,9 @@ public class MainCRUD
                 case 33:
                     break;
                 case 4:
+                    /*
+                     * Afficher compagnies aériennes
+                     */
                     compagnieAerienneDao = new CompagnieAerienneDaoSql(
                             connexion);
                     listeBOs = compagnieAerienneDao.findAll();
@@ -206,14 +264,47 @@ public class MainCRUD
                 case 43:
                     break;
                 case 0:
+                    /*
+                     * Quitter l'application
+                     */
                     System.out.println("Vous quittez l'application.");
                     quitter = true;
                     break;
             }
+            // réinit. du scanner
             in.reset();
         }
+        // Tant que l'utilisateur ne demande pas de quitter
         while (!quitter);
+        // fermeture du scanner
         in.close();
+    }
+
+    /**
+     * Gère les interactions entre l'utilisateur et le programme afin du
+     * supprimer un client
+     * 
+     * @param clientDao DAO Client
+     */
+    private static void interfaceSupprimerClient(ClientDao clientDao)
+    {
+        System.out.println(
+                "Veuillez saisir l'identifiant du client à supprimer :");
+        Scanner in = new Scanner(System.in);
+        int numCli = in.nextInt();
+        // on vérifie que le client existe bel et bien
+        Client clientASupprimer = clientDao.findById(numCli);
+        if (clientASupprimer != null)
+        // suppression du client
+        {
+            clientDao.delete(clientASupprimer);
+            System.out.println("Client " + clientASupprimer.getNom() + " supprimé.");
+        }
+        else
+        {
+            System.err.println("Ce client n'existe pas.");
+        }
+
     }
 
     /**
