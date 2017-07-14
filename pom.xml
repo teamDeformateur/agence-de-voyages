@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.formation</groupId>
   <artifactId>agence-de-voyages</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3.1-SNAPSHOT</version>
   <build>
     <plugins>
       <plugin>
