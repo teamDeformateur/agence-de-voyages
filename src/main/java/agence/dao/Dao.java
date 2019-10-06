@@ -7,9 +7,9 @@ import java.util.List;
  * 
  * @author seme
  * @param <T>
- * @param <PK>
+ * @param <K>
  */
-public interface Dao<T, PK>
+public interface Dao<T, K>
 {
     /**
      * Retourne la liste de tous les objets métiers de la source de données
@@ -25,7 +25,7 @@ public interface Dao<T, PK>
      *            Clé primaire
      * @return L'objet métier trouvé
      */
-    T findById(PK id);
+    T findById(K id);
 
     /**
      * Crée un nouvel objet métier afin de le persister

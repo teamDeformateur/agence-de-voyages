@@ -19,18 +19,24 @@ public class MainFile
     {
         AdresseDao adresseDao = new AdresseDaoFile();
         List<Adresse> adresses = adresseDao.findAll();
+        adresses.clear();
         Adresse adresse = adresseDao.findById(2);
+        adresse.getAdresse();
 
         PassagerDao passagerDao = new PassagerDaoFile();
         List<Passager> passagers = passagerDao.findAll();
+        passagers.clear();
         Passager passager = passagerDao.findById(1);
 
         ReservationDao reservationDao = new ReservationDaoFile();
         List<Reservation> reservations = reservationDao.findAll();
+        reservations.clear();
         Reservation reservation = reservationDao.findById(2);
+        reservation.toString();
         // Recherche par passager
         List<Reservation> reservationsPassager = reservationDao
                 .findByPassager(passager);
+        reservationsPassager.clear();
 
     }
 

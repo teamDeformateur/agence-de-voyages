@@ -9,20 +9,13 @@ import java.util.Scanner;
 
 import agence.dao.AdresseDao;
 import agence.dao.AdresseDaoSql;
-import agence.dao.AeroportDao;
 import agence.dao.ClientDao;
 import agence.dao.ClientMoralDaoSql;
 import agence.dao.ClientPhysiqueDaoSql;
 import agence.dao.CompagnieAerienneDao;
 import agence.dao.CompagnieAerienneDaoSql;
-import agence.dao.CompagnieAerienneVolDao;
-import agence.dao.EscaleDao;
-import agence.dao.LoginDao;
-import agence.dao.PassagerDao;
 import agence.dao.ReservationDao;
 import agence.dao.ReservationDaoSql;
-import agence.dao.VilleAeroportDao;
-import agence.dao.VilleDao;
 import agence.dao.VolDao;
 import agence.dao.VolDaoSql;
 import agence.model.Adresse;
@@ -55,16 +48,9 @@ public class MainCRUD
          * DAO
          */
         AdresseDao adresseDao;
-        AeroportDao aeroportDao;
         ClientDao clientDao;
         CompagnieAerienneDao compagnieAerienneDao;
-        CompagnieAerienneVolDao compagnieAerienneVolDao;
-        EscaleDao escaleDao;
         ReservationDao reservationDao;
-        LoginDao loginDao;
-        PassagerDao passagerDao;
-        VilleAeroportDao villeAeroportDao;
-        VilleDao villeDao;
         VolDao volDao;
         /*
          * Interface graphique
@@ -82,6 +68,8 @@ public class MainCRUD
             int choix = in.nextInt();
             switch (choix)
             {
+            	default:
+            		break;
                 case 1:
                     /*
                      * Afficher vols
@@ -295,6 +283,7 @@ public class MainCRUD
                 "Veuillez saisir l'identifiant du client à supprimer :");
         Scanner in = new Scanner(System.in);
         int numCli = in.nextInt();
+        in.close();
         // on vérifie que le client existe bel et bien
         Client clientASupprimer = clientDao.findById(numCli);
         if (clientASupprimer != null)

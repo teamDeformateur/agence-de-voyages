@@ -12,6 +12,8 @@ import agence.model.Vol;
 
 public class EscaleDaoSql extends DaoSQL implements EscaleDao
 {
+	private AeroportDaoSql aeroportDAO = new AeroportDaoSql(connexion);
+	
     /**
      * @param connexion
      */
@@ -19,8 +21,6 @@ public class EscaleDaoSql extends DaoSQL implements EscaleDao
     {
         super(connexion);
     }
-
-    private AeroportDaoSql aeroportDAO = new AeroportDaoSql(connexion);
 
     @Override
     public List<Escale> findAll()

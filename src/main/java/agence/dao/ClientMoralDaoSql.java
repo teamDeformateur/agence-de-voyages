@@ -19,14 +19,6 @@ import agence.model.ClientMoral;
 public class ClientMoralDaoSql extends ClientDaoSql
 {
     /**
-     * @param connexion
-     */
-    public ClientMoralDaoSql(Connection connexion)
-    {
-        super(connexion);
-    }
-
-    /**
      * DAO adresse
      */
     private AdresseDaoSql adresseDAO = new AdresseDaoSql(connexion);
@@ -40,6 +32,72 @@ public class ClientMoralDaoSql extends ClientDaoSql
      * DAO Reservation
      */
     private ReservationDao reservationDao = new ReservationDaoSql(connexion);
+
+    /**
+     * @param connexion
+     */
+    public ClientMoralDaoSql(Connection connexion)
+    {
+        super(connexion);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.Dao#create(java.lang.Object)
+     */
+    @Override
+    public void create(Client obj)
+    {
+        try
+        {
+            preparedStatement = connexion.prepareStatement(
+                    "INSERT INTO client (nom, numTel, numFax, email, siret, idAdd) VALUES(?,?,?,?,?,?)");
+            preparedStatement.setString(1, obj.getNom());
+            preparedStatement.setString(2, obj.getNumeroTel());
+            preparedStatement.setString(3, obj.getNumeroFax());
+            preparedStatement.setString(4, obj.getEmail());
+            preparedStatement.setLong(5, ((ClientMoral) obj).getSiret());
+            preparedStatement.setInt(6, obj.getAdresse().getIdAdd());
+            // insertion dans la BDD
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see agence.dao.Dao#delete(java.lang.Object)
+     */
+    @Override
+    public void delete(Client obj)
+    {
+        // il faut supprimer le client
+        try
+        {
+            preparedStatement = connexion
+                    .prepareStatement("DELETE FROM client WHERE idClient = ?");
+            preparedStatement.setInt(1, obj.getIdCli());
+            // suppression
+            int affectedRows = preparedStatement.executeUpdate();
+            // si aucune ligne affectée
+            if (affectedRows == 0)
+            {
+                throw new SQLException(
+                        "Echec de la suppression du client. Aucune ligne affectée.");
+            }
+            // puis l'adresse
+            adresseDAO.delete(obj.getAdresse());
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Erreur lors de la suppression d'un client.");
+            e.printStackTrace();
+        }
+
+    }
 
     public List<Client> findAll()
     {
@@ -140,32 +198,6 @@ public class ClientMoralDaoSql extends ClientDaoSql
 
     /*
      * (non-Javadoc)
-     * @see agence.dao.Dao#create(java.lang.Object)
-     */
-    @Override
-    public void create(Client obj)
-    {
-        try
-        {
-            preparedStatement = connexion.prepareStatement(
-                    "INSERT INTO client (nom, numTel, numFax, email, siret, idAdd) VALUES(?,?,?,?,?,?)");
-            preparedStatement.setString(1, obj.getNom());
-            preparedStatement.setString(2, obj.getNumeroTel());
-            preparedStatement.setString(3, obj.getNumeroFax());
-            preparedStatement.setString(4, obj.getEmail());
-            preparedStatement.setLong(5, ((ClientMoral) obj).getSiret());
-            preparedStatement.setInt(6, obj.getAdresse().getIdAdd());
-            // insertion dans la BDD
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    /*
-     * (non-Javadoc)
      * @see agence.dao.Dao#update(java.lang.Object)
      */
     @Override
@@ -194,38 +226,6 @@ public class ClientMoralDaoSql extends ClientDaoSql
         }
 
         return obj;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see agence.dao.Dao#delete(java.lang.Object)
-     */
-    @Override
-    public void delete(Client obj)
-    {
-        // il faut supprimer le client
-        try
-        {
-            preparedStatement = connexion
-                    .prepareStatement("DELETE FROM client WHERE idClient = ?");
-            preparedStatement.setInt(1, obj.getIdCli());
-            // suppression
-            int affectedRows = preparedStatement.executeUpdate();
-            // si aucune ligne affectée
-            if (affectedRows == 0)
-            {
-                throw new SQLException(
-                        "Echec de la suppression du client. Aucune ligne affectée.");
-            }
-            // puis l'adresse
-            adresseDAO.delete(obj.getAdresse());
-        }
-        catch (SQLException e)
-        {
-            System.err.println("Erreur lors de la suppression d'un client.");
-            e.printStackTrace();
-        }
-
     }
 
 }

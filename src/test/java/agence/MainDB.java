@@ -215,7 +215,7 @@ public class MainDB
      * 
      * @param connexion
      */
-    static void seDeconnecter(Connection connexion)
+    public static void seDeconnecter(Connection connexion)
     {
         try
         {
@@ -237,7 +237,7 @@ public class MainDB
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    static Connection seConnecter()
+    public static Connection seConnecter()
     {
         Connection connexion = null;
         try
